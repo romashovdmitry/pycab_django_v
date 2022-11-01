@@ -1,0 +1,8 @@
+Django == 4.1
+psycopg2==2.9.3
+django-createsuperuser==2020.12.3
+django-reset-migrations==0.4.0
+SQLAlchemy==1.4.40
+redis==4.3.4
+requests==2.27.1
+celery==5.2.7    
