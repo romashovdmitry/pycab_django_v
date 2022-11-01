@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'logout' %}">Log Out</a>
+                <ul></ul>
+                <a class="btn btn-outline-success my-2 my-sm-0" href="https://t.me/Django_Pycab_bot" target="_blank">Telegram Bot</a>
+    </nav>
+</header>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<form action="{% url 'table' %}" method="post" >{% csrf_token %}
+    <div class="form-group">
+        <label> Word </label>
+        <input type="text" class="form-control" name="word" placeholder="Enter new word" required>
+        <small class="form-text text-muted">To write word and definition, that you want to
+            add</small>
+    </div>
+    <div class="form-group">
+        <label> Definition </label>
+        <input type="text" name="definition" class="form-control" placeholder="Definition" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th width="15%" scope="col">Word</th>
+                    <th width="70%"scope="col">Definition</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <form method="POST">{% csrf_token %}
+                        <td> {{ record.word_in_whole }} </td>
+                        <td> {{ record.definition_of_word_in_whole }} </td>
+                        <td>
+                            <a class="btn btn-success" href="{% url 'modify' record.id_of_word_in_whole %}">
+                            <i class="fas fa-edit">modify</i></a> <!-- id=p.id_in_whole -->
+                            <td>   
+                                <a class="btn btn-danger" href="{% url 'delete' record.id_of_word_in_whole %}">
+                                <i class="far fa-trash-alt">delete</i></a>
+                            </td>
+                        </td>            
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% for record in records %} 
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+<!--
+  https://getbootstrap.com/docs/4.0/utilities/colors/
+  https://getbootstrap.com/docs/4.0/utilities/text/
+
+-->
+<style>
+  body {background-color: powderblue;}
+</style>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<br><br><br><br><br><br>
+<div class="text-center">
+  <div class="card-body">
+    <p class="card-text font-weight-bold bigbig">write to Telegram bot your's email.</p>
+    <a href="https://t.me/Django_Pycab_bot" target="_blank" class="btn btn-primary">Go to bot!</a>
+    <br><br>
+    <p class="card-text font-weight-bold">And go to your's table</p>
+    <a href="{% url 'table' %}" class="btn btn-primary">Go to table!</a>
+  </div>
+</div>
+</div>
+{% endblock %}
