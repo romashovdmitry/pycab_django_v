@@ -11,12 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 webghook API Telegram: 
 
-https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://942f-83-139-27-38.eu.ngrok.io/5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ
+https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://7385-83-139-27-38.eu.ngrok.io/5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ
 
 """
 import os
 from pathlib import Path
-NGROK = '942f-83-139-27-38.eu.ngrok.io'
+NGROK = '7385-83-139-27-38.eu.ngrok.io'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'table'
 ]
 

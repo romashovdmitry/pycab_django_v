@@ -1,0 +1,6 @@
+__pycache__
+*__pycache__*
+migrations/
+*migrations*
+pycab_screencast.mp4
+*.pyc
