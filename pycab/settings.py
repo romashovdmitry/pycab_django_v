@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 webghook API Telegram: 
 
-https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://7385-83-139-27-38.eu.ngrok.io/5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ
+https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://9973-83-139-26-232.eu.ngrok.io/5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ
 
 """
+
 import os
 from pathlib import Path
-NGROK = '7385-83-139-27-38.eu.ngrok.io'
+NGROK = '9973-83-139-26-232.eu.ngrok.io'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +32,7 @@ SECRET_KEY = 'django-insecure-js@8r$lh*%@=rerl@o$0hes+15i9tz3ymwvds!jmjq%e(#$#jg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [NGROK]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
