@@ -9,3 +9,4 @@ pycab_screencast.mp4
 *.pot
 *.pyc
 __pycache__
+*__pycache__
