@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 webghook API Telegram: 
 
-https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://2bb3-217-76-11-135.eu.ngrok.io
+https://api.telegram.org/bot<bot_token>/setWebhook?url=NGROK
 
 """
 
 import os
 from pathlib import Path 
-NGROK = '2bb3-217-76-11-135.eu.ngrok.io'
+NGROK = 'NGROK'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
