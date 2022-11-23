@@ -4,3 +4,8 @@ migrations/
 *migrations*
 pycab_screencast.mp4
 *.pyc
+
+*.log
+*.pot
+*.pyc
+__pycache__

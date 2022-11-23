@@ -87,6 +87,7 @@ def get_message(request):
 def table(request):
     # есть объект request.user - это почта юзера
     email_adress = str(request.user)
+    print(dir(request))
     if request.method == 'POST':
         word = request.POST.get('word')
         definition = request.POST.get('definition')
