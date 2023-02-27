@@ -18,8 +18,9 @@ from django.urls import path, include
 
 from table import views
 
+#    path('5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ', views.get_message, name='telegram request'),
+
 urlpatterns = [
-    path('5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ', views.get_message, name='telegram request'),
     path('admin/', admin.site.urls),
     path('registration/', views.registerPage, name='reg'),
     path('logout', views.logout, name='logout'),

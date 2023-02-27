@@ -15,6 +15,9 @@ from .forms import myForm
 from .models import MyUser
 from .tasks import py_send_mail
 
+import os
+from dotenv import load_dotenv
+
 
 # Create your views here.
 

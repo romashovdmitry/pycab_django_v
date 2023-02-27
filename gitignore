@@ -4,9 +4,12 @@ migrations/
 *migrations*
 pycab_screencast.mp4
 *.pyc
+__pycache__/
 
 *.log
 *.pot
 *.pyc
 __pycache__
 *__pycache__
+
+.env

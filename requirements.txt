@@ -6,4 +6,5 @@ SQLAlchemy==1.4.40
 redis==4.3.4
 requests==2.27.1
 celery==5.2.7    
-djangorestframework==3.14.0
+djangorestframework==3.14.
+python-dotenv==1.0.0

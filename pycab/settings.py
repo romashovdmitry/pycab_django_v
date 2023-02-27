@@ -11,13 +11,17 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 webghook API Telegram: 
 
-https://api.telegram.org/bot<bot_token>/setWebhook?url=NGROK
+https://api.telegram.org/bot{os.getenv('TELEGRAM_TOKEN')}/setWebhook?url={NGROK}}
 
 """
 
+from pathlib import Path
 import os
-from pathlib import Path 
-NGROK = 'NGROK'
+from dotenv import load_dotenv
+load_dotenv()
+
+
+NGROK = os.getenv("NGROK")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-js@8r$lh*%@=rerl@o$0hes+15i9tz3ymwvds!jmjq%e(#$#jg'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pycab_django_db',
         'USER': 'postgres',
-        'PASSWORD': 'polkabulok56',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'pgdb',
         'PORT': 5432,
     }
@@ -136,7 +140,7 @@ STATICFILES_DIRS = [
 ]
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field    
+# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -150,12 +154,20 @@ LOGIN_URL = 'login'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'romashov.dmitry.o@gmail.com'
-#ejlxkfsybcojruxr
-EMAIL_HOST_PASSWORD = 'ejlxkfsybcojruxr'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_TRUSTED_ORIGINS = [
     f'https://{NGROK}'
 ]
+
+'''
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
+'''
