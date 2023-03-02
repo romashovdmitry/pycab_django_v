@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 webghook API Telegram: 
 
 https://api.telegram.org/bot{os.getenv('TELEGRAM_TOKEN')}/setWebhook?url={NGROK}}
+https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://e614-217-76-10-93.eu.ngrok.io/telegram
 
 """
 
@@ -160,8 +161,10 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_TRUSTED_ORIGINS = [
-    f'https://{NGROK}'
+    f'{NGROK}'
 ]
+
+
 
 '''
 REST_FRAMEWORK = {
