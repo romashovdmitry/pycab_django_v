@@ -18,3 +18,13 @@ __pycache__
 # for tests on local
 ngrok.exe
 typical_commands.txt
+
+*.log
+*.pot
+*.pyc
+__pycache__
+
+*.py[cod] 
+*$py.class 
+
+*pyc
