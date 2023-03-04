@@ -1,12 +1,15 @@
 import hashlib
 
-# Of course, this file is on github only because project is for demonstration
-# :)
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def hashing(password):
     ''' Foo hashs password entered by user '''
-    password = 'kn485' + password + 'bn12mzx09'
+    password_start = os.getenv('PASSWORD_START')
+    password_finish = os.getenv('PASSWORD_FINISH')
+    password = password_start + password + password_finish
     password = password.encode('utf-8')
     password = hashlib.sha256((password)).hexdigest()
     salt = password[3:6]
@@ -16,6 +19,3 @@ def hashing(password):
         hash_name='sha256', password=password, salt=salt, iterations=100000)
     return (hashed_password.hex())
 
-# Now hashing is "static", next step would be making hashing more dynamic:
-# personal salt for every password, that is not (!)
-# depends on entered symbols (!).

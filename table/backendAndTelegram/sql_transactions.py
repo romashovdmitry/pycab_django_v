@@ -33,13 +33,11 @@ class SQLTransactions():
 
     '''
 
+#   if UserInfo.objects.filter(telegram_id=telegram_id).first().user_level is not None:
     def validateLevel(self):
-        print("Start SQL")
         db_answer = self.db.execute("SELECT user_level FROM table_userinfo "
                                     "WHERE telegram_id={};".
                                     format(self.telegram_id)).first()
-        print("Finish SQL")
-        print(f'DB answer: {db_answer}')
         return False if db_answer is None else True
 
     def validateUserInTable(self):
@@ -49,6 +47,7 @@ class SQLTransactions():
             "SELECT telegram_id FROM table_userinfo);".format(self.telegram_id)).first()
         return False if db_answer is None else True
 
+# MyUser.objects.filter(email=em).exists()
     def validateEmailInTable(self):
         db_answer = self.db.execute(
             "select TRUE HAVING '{}' IN ("
@@ -56,12 +55,6 @@ class SQLTransactions():
             format(self.user_email)).first()
         return False if db_answer is None else True
 
-    def setTelegramIdByEmail(self):
-        print('setTelegramIdByEmail')
-        self.db.execute("UPDATE table_userinfo\
-                    SET telegram_id={}, user_level='start password'\
-                    WHERE user_email_id='{}';\
-                    ".format(self.telegram_id, self.user_email))
 
     def updateUserLevel(self):
         self.db.execute("UPDATE table_userinfo "
@@ -70,19 +63,17 @@ class SQLTransactions():
                         .format(self.user_level,
                                 self.user_email))
 
-    def updateLevelByTelegramId(self):
-        print('AMA HERE IN DB')
-        print(("UPDATE table_userinfo "
-               "SET user_level = '{}' "
-               "WHERE telegram_id={};"
-               .format(self.user_level,
-                       self.telegram_id)))
-        self.db.execute("UPDATE table_userinfo "
-                        "SET user_level = '{}' "
-                        "WHERE telegram_id={};"
-                        .format(self.user_level,
-                                self.telegram_id))
+#   user_info = UserInfo.objects.get(telegram_id=telegram_id)
+#   user_info.user_level='start password'
+#   user_info.save()
+    def setTelegramIdByEmail(self):
+        self.db.execute("UPDATE table_userinfo\
+                    SET telegram_id={}, user_level='start password'\
+                    WHERE user_email_id='{}';\
+                    ".format(self.telegram_id, self.user_email))
 
+
+#   email_of_user = UserInfo.objects.filter(telegram_id=telegram_id).first().user_email
     def findUserEmailByTelegramId(self):
         return self.db.execute("SELECT user_email_id "
                                "FROM table_userinfo "
@@ -109,6 +100,12 @@ class SQLTransactions():
                         "WHERE id_of_word_in_whole={};".
                         format(self.word_in_whole, self.rownumber))
 
+# vocab_string = WholeVocab.objects.filter(id_of_word_in_whole=session_pk).first()
+#            vocab_string.update_string(
+#                word=word,
+#                definition=definition
+#            )
+
     def updateWordDefinitionInWhole(self):
         self.db.execute("UPDATE table_wholevocab "
                         "SET word_in_whole='{}', "
@@ -117,6 +114,11 @@ class SQLTransactions():
                         format(self.word_in_whole, self.definition,
                                self.rownumber))
 
+#    def add_new_string(self, email, word, definition):
+#        self.word_in_whole = word
+#        self.definition_of_word_in_whole = definition
+#        self.user_email = email
+#        self.save()
     def addWordDefinitionInWhole(self):
         self.db.execute("INSERT INTO table_wholevocab "
                         "(word_in_whole, definition_of_word_in_whole, "
@@ -125,6 +127,7 @@ class SQLTransactions():
                         format(self.word_in_whole, self.definition,
                                self.user_email))
 
+#   records = WholeVocab.objects.filter(user_email=email_adress).all()
     def selectAllInWholeVocabByEmail(self):
         return self.db.execute("SELECT * FROM table_wholevocab "
                                "WHERE user_email_id='{}';"
@@ -259,7 +262,9 @@ class SQLTransactions():
         self.db.execute("DELETE FROM table_wholevocab "
                         "WHERE id_of_word_in_whole={};".
                         format(self.rownumber))
-
+#
+#
+#
     def getWordFromWhole(self):
         return self.db.execute("SELECT word_in_whole "
                                "FROM table_wholevocab "
@@ -293,13 +298,17 @@ class SQLTransactions():
                         "SET status_of_word_in_dynamic='modif' "
                         "WHERE id_of_word_in_dynamic_id={};"
                         .format(self.rownumber))
-
+#   password = MyUser.objects.filter(email=em).first().password
     def getPasswordOfUser(self):
         return self.db.execute("SELECT password "
                                "FROM table_myuser "
                                "WHERE email='{}';".
                                format(self.user_email)).first()['password']
 
+
+#   user = MyUser.objects.get(email=em)
+#   user.password = new_password
+#   user.save()
     def setNewPassword(self):
         self.db.execute("UPDATE table_myuser "
                         "SET password='{}' "

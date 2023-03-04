@@ -16,22 +16,35 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from table import views
+from table.views.auth import registerPage, logout, login_view, infoPageUrls, \
+    passwordstepone, passwordsteptwo, passwordsteplust
+from table.views.words import table, delete_word, modify_word
+from table.views.get_message import get_message
 
 #    path('5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ', views.get_message, name='telegram request'),
 
 urlpatterns = [
+    # registrations pages
     path('admin/', admin.site.urls),
-    path('registration/', views.registerPage, name='reg'),
-    path('logout', views.logout, name='logout'),
-    path('login', views.login_view, name='login'),
-    path('infopage', views.infoPageUrls, name='info urls'),
-    path('table', views.table, name='table'),
-    path('delete_word/<pk>', views.delete_word, name='delete'),
-    path('modify/<pk>', views.modify_word, name='modify'),
-    path('check', views.check, name='check'),
-    path('newpasswordstepone', views.passwordstepone, name='passwordstepone'),
-    path('passwordsteptwo', views.passwordsteptwo, name='passwordsteptwo'),
-    path('passwordsteplust', views.passwordsteplust, name='passwordsteplust'),
-    path('api/', include('table.api.urls'))
+    path('', registerPage, name='reg'),
+    path('logout', logout, name='logout'),
+    path('login', login_view, name='login'),
+    path('infopage', infoPageUrls, name='info urls'),
+
+    # working with words pages
+    path('table', table, name='table'),
+    path('delete_word/<pk>', delete_word, name='delete'),
+    path('modify/<pk>', modify_word, name='modify'),
+
+    # recreating password pages
+    path('newpasswordstepone', passwordstepone, name='passwordstepone'),
+    path('passwordsteptwo', passwordsteptwo, name='passwordsteptwo'),
+    path('passwordsteplust', passwordsteplust, name='passwordsteplust'),
+
+    # api url
+    path('api/', include('table.api.urls')),
+
+    # for Telegram webhook url
+    path('telegram', get_message)
+
 ]

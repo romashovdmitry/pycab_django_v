@@ -5,67 +5,74 @@ from typing import Tuple
 from . import telegram_api_request as tar
 from .sql_transactions import SQLTransactions
 
+from table.models import WholeVocab, DynamicVocab
+from table.models import MyUser, UserInfo
+
 # Row in tables can have 3 statuses:
 # not_done - nothing is happening with row in table
 # doing - for deleting of row in table
 # modif - for modification of row in table
 
 
-def show_word(user_email_id):
+def show_word(user_email):
     '''Foo is using on level "default". Foo show random word from vocab'''
-    list_of_records = list(
-        SQLTransactions(user_email=user_email_id).selectAllRecordsFromDynamic())
+    list_of_records = DynamicVocab.objects.filter(user_email=user_email).all()
     if len(list_of_records) > 0:
         highest = len(list_of_records)
-        pkeys = list(SQLTransactions(
-            user_email=user_email_id).selectPkeysFromDynamic())
-        random_list = {i: pkeys[i][0] for i in range(highest)}
+        pkeys = [b.id_of_word_in_dynamic.id_of_word_in_whole for b in list_of_records]
+        random_list = {i: pkeys[i] for i in range(highest)}
+        # PLACE
+        # FOR
+        # ENUMERATE
         random_ = random.randint(1, highest)
         random_ -= 1
         doing = random_list[random_]
-        SQLTransactions(status_of_word_in_dynamic='doing',
-                        user_email=user_email_id,
-                        id_of_word_in_dynamic=doing).setStatudInDynamic()
+        _ = WholeVocab.objects.get(id_of_word_in_whole=doing)
+        dynamic_table_string = DynamicVocab.objects.get(
+            id_of_word_in_dynamic=_)
+        dynamic_table_string.status_of_word_in_dynamic = 'doing'
+        dynamic_table_string.save()
         del (random_)
-        SQLTransactions(
-            status_of_word_in_dynamic='doing',
-            user_email=user_email_id).selectDynamicDefenitionStatusDoing()
-        definition = SQLTransactions(
-            user_email=user_email_id).selectDynamicDoing()
-        return definition
+        return dynamic_table_string.definition_in_dynamic
     return ('Словарь закончился!\n '
             '\nДобавь новые слова или пройдись еще раз по словарю. ')
 
 
-def vocab_work(user_email_id: int) -> str:
+def vocab_work(user_email) -> str:
     '''Foo is using on level "default". Foo fills table dynamic_vocab'''
-    SQLTransactions(user_email=user_email_id).deleteAllFromDynamicByEmail()
-    SQLTransactions(user_email=user_email_id).copyRecordsFromWholeToDynamic()
-    return show_word(user_email_id)
+    DynamicVocab.objects.all().delete()
+    whole_vocab_records = WholeVocab.objects.filter(
+        user_email=user_email).all()
+    for record in whole_vocab_records:
+        _ = DynamicVocab()
+        _.new_record(
+            email=user_email,
+            record=record
+        )
+    return show_word(user_email)
 
 
-def checking_word(message_word: str, email_of_user: str) -> Tuple[bool, str]:
+def checking_word(message_word: str, user_email: str) -> Tuple[bool, str]:
     '''Foo checks accuracy of written (to bot) word'''
     message_word = message_word.rstrip()[::-1].rstrip()[::-1].lower()
-    correct_word = SQLTransactions(
-        user_email=email_of_user).findWordDynamicStatusDoing()
-    SQLTransactions(
-        user_email=email_of_user).deleteRecordDynamicStatusDoing()
+    dynamic_table_string = DynamicVocab.objects.get(
+        user_email=user_email, status_of_word_in_dynamic='doing')
+    correct_word = dynamic_table_string.word_in_dynamic
+    dynamic_table_string.delete()
     if message_word == correct_word.lower():
         return (True, None)
     return (False, correct_word)
 
 
-def show_all_words_for_deleting(user_email_id, chat_id):
+def show_all_words_for_deleting(user_email, chat_id):
     '''
     Foo is using on level "deleting". Foo returns whole list of words in table 
     whole_vocab. Returning is with a frequency of 25 words. 
 
     '''
-    SQLTransactions(user_email=user_email_id).deleteAllFromDynamicByEmail()
-    list_all_words = list(
-        SQLTransactions(user_email=user_email_id).selectAllWordsFromWhole())
-    if len(list_all_words) < 1:
+    DynamicVocab.objects.all().delete()
+    all_words = WholeVocab.objects.filter(user_email=user_email).all()
+    if len(all_words) < 1:
         tar.ButtonCreate(message_text="Словарь пустой.\n"
                                       "Сначала следует "
                                       "добавить слова.",
@@ -76,15 +83,15 @@ def show_all_words_for_deleting(user_email_id, chat_id):
                                                        "Внести "
                                                        "изменения в "
                                                        "словарь"]). \
-                                                       return_button()
+            return_button()
     else:
         i = 1
-        while len(list_all_words) != 0:
+        while len(all_words) != 0:
             s = ''
-            for b in list_all_words[0:25]:
-                s = s + str(i) + '. ' + str(b[0]) + '\n'
+            for b in all_words[0:25]:
+                s = s + str(i) + '. ' + str(b.word_in_whole) + '\n'
                 i += 1
-            list_all_words = list_all_words[25:]
+            all_words = all_words[25:]
             tar.ButtonCreate(message_text=s,
                              chat_id=chat_id,
                              texts_of_button=['']).return_button()
@@ -104,17 +111,26 @@ def show_all_words_for_deleting(user_email_id, chat_id):
             return_button()
 
 
-def show_all_words_for_modif(user_email_id: int, chat_id: int):
+def show_all_words_for_modif(user_email: int, chat_id: int):
     '''
     Foo is using on level "modificate word". Foo returns whole list of words in table 
     whole_vocab. Returning is with a frequency of 25 words. 
 
     '''
-    SQLTransactions(user_email=user_email_id).deleteAllFromDynamicByEmail()
-    SQLTransactions(user_email=user_email_id).copyRecordsFromWholeToDynamic()
-    list_all_words = list(
-        SQLTransactions(user_email=user_email_id).selectAllWordsFromDynamic())
-    if len(list_all_words) < 1:
+    DynamicVocab.objects.all().delete()
+#    SQLTransactions(user_email=user_email).deleteAllFromDynamicByEmail()
+
+    whole_vocab_records = WholeVocab.objects.filter(
+        user_email=user_email).all()
+    for record in whole_vocab_records:
+        _ = DynamicVocab()
+        _.new_record(
+            email=user_email,
+            record=record
+        )
+    all_dynamica_words = DynamicVocab.objects.filter(
+        user_email=user_email).all()
+    if len(all_dynamica_words) < 1:
         tar.ButtonCreate(message_text='Словарь пустой.\n '
                                       'Сначала следует '
                                       'добавить слова.',
@@ -128,12 +144,12 @@ def show_all_words_for_modif(user_email_id: int, chat_id: int):
             return_button()
     else:
         i = 1
-        while len(list_all_words) != 0:
+        while len(all_dynamica_words) != 0:
             s = ''
-            for b in list_all_words[0:25]:
-                s = s + str(i) + '. ' + str(b[0]) + '\n'
+            for b in all_dynamica_words[0:25]:
+                s = s + str(i) + '. ' + str(b.word_in_dynamic) + '\n'
                 i += 1
-            list_all_words = list_all_words[25:]
+            all_dynamica_words = all_dynamica_words[25:]
             tar.ButtonCreate(message_text=s,
                              chat_id=chat_id,
                              texts_of_button=['']).return_button()
@@ -152,7 +168,7 @@ def show_all_words_for_modif(user_email_id: int, chat_id: int):
             return_button()
 
 
-def delete_word(numbers: str, email_of_user: str) -> str:
+def delete_word(numbers: str, user_email: str) -> str:
     '''Foo delete row from table'''
     alpha_checking = (re.search('[^1-9, ]', numbers))
     if alpha_checking is None:                        # if there is no letters
@@ -163,40 +179,40 @@ def delete_word(numbers: str, email_of_user: str) -> str:
         list_for_deleting.sort()
         if list_for_deleting[0] > list_for_deleting[-1]:
             list_for_deleting.reverse()
-        list_all_words = list(
-            SQLTransactions(
-                user_email=email_of_user).selectAllWordsFromWhole())
+        all_words = WholeVocab.objects.filter(user_email=user_email).all()
         numbered_list_of_words = {
-            b: list_all_words[b][0] for b in range(len(list_all_words))}
+            b: all_words[b].id_of_word_in_whole for b in range(len(all_words))}
         for b in list_for_deleting:
-            SQLTransactions(
-                word_in_whole=numbered_list_of_words[b-1],
-                user_email=email_of_user).deleteRecordWholeByWord()
+            table_string = WholeVocab.objects.get(
+                id_of_word_in_whole=numbered_list_of_words[b-1],
+                user_email=user_email
+            )
+            table_string.delete()
         return ('Удалено! ')
     else:
         return ("Пожалуйста, не используйте буквы, предпочтительно "
                 "использовать такой формат: \n\n 1, 2, 3")
 
 
-def modificate_word(message: str, email_of_user: str) -> str:
+def modificate_word(message: str, user_email: str) -> str:
     '''Foo modificate word and status of word'''
     if (re.search('[a-z]', message)) is None:       # if no letters in message
         message = re.sub('[\s]', '', message)       # remove spaces
         message = int(re.sub('[.,]', '', message))  # remove dots and commas
         try:
-            list_all_words = list(SQLTransactions(
-                user_email=email_of_user).selectAllWordsFromWhole())
+            all_whole_vocab_words = WholeVocab.objects.filter(
+                user_email=user_email).all()
             numbered_list_of_words = {
-                b: list_all_words[b][0] for b in range(len(list_all_words))}
+                b: all_whole_vocab_words[b].word_in_whole for b in range(len(all_whole_vocab_words))}
             word = numbered_list_of_words[message-1]
-            SQLTransactions(
-                    word_in_dynamic=word,
-                    user_email=email_of_user).setStatusInDynamicModif()
-            definition_of_word = SQLTransactions(
-                user_email=email_of_user).selectDynamicModif()
-            definition_of_word = ("Дефиниция у слова следующая: {}. \nНапиши "
+            dynamic_table_string = DynamicVocab.objects.get(
+                user_email=user_email, word_in_dynamic=word)
+            dynamic_table_string.status_of_word_in_dynamic = 'modif'
+            dynamic_table_string.save()
+            definition_of_word = dynamic_table_string.definition_in_dynamic
+            definition_of_word = ("Дефиниция у слова следующая:\n\n {}. \n\nНапиши "
                                   "теперь верную дефиницию.").format(
-                                    definition_of_word)
+                definition_of_word)
             return definition_of_word
         except Exception as ex:
             return ("Что-то пошло не так. Попробуй, пожалуйста, набрать только"
@@ -208,20 +224,28 @@ def modificate_word(message: str, email_of_user: str) -> str:
             number_of_word = number_and_word[0]
             word = number_and_word[1].rstrip()[::-1].rstrip()[::-1]
             number_of_word = int(re.sub('[\s]', '', number_of_word))
-            pkeys = SQLTransactions(
-                user_email=email_of_user).selectPkeysFromDynamic()
+            list_of_records = DynamicVocab.objects.filter(
+                user_email=user_email).all()
+            pkeys = [
+                b.id_of_word_in_dynamic.id_of_word_in_whole for b in list_of_records]
             highest = len(pkeys)
-            dict_ = {i: pkeys[i][0] for i in range(highest)}
+            dict_ = {i: pkeys[i] for i in range(highest)}
             pkey_of_word = dict_[number_of_word-1]
-            SQLTransactions(
-                word_in_whole=word,
-                rownumber=pkey_of_word
-                ).updateWordByPk()
-            SQLTransactions(rownumber=pkey_of_word).updateStatusModifInDynamic()
-            definition_of_word = SQLTransactions(
-                user_email=email_of_user).selectDynamicModif()
-            returning_message = ("Слово изменено. Дефиниция у него такая: {}"
-                                 "\nНапиши теперь верную дефиницию для слова. "
+
+            whole_vocab_string = WholeVocab.objects.get(
+                id_of_word_in_whole=pkey_of_word)
+            whole_vocab_string.word_in_whole = word
+            whole_vocab_string.save()
+
+            dynamic_table_string = DynamicVocab.objects.get(
+                id_of_word_in_dynamic=pkey_of_word)
+            dynamic_table_string.status_of_word_in_dynamic = 'modif'
+            dynamic_table_string.save()
+
+            definition_of_word = dynamic_table_string.definition_in_dynamic
+
+            returning_message = ("Слово изменено. Дефиниция у него такая: \n\n{}"
+                                 "\n\nНапиши теперь верную дефиницию для слова. "
                                  "Если менять ее не надо, то можешь просто "
                                  "скопировать написанную выше, либо вызвать "
                                  "другую команду. ".format(definition_of_word))
@@ -232,14 +256,20 @@ def modificate_word(message: str, email_of_user: str) -> str:
                     "Слово. ")
 
 
-def modificate_definition(definition: str, user_email_id: str) -> str:
+def modificate_definition(definition: str, user_email: str) -> str:
     '''Foo modificate definition in row of table whole_vocab '''
     try:
-        number_in_whole = SQLTransactions(
-            user_email=user_email_id).findRecordPkeyStatusModif()
-        SQLTransactions(
-            definition=definition,
-            id_of_word_in_dynamic=number_in_whole).updateDefinitionInWhole()
+        dynamic_table_string = DynamicVocab.objects.get(
+            user_email=user_email,
+            status_of_word_in_dynamic='modif'
+        )
+        number_in_whole = dynamic_table_string.id_of_word_in_dynamic.id_of_word_in_whole
+        whole_table_string = WholeVocab.objects.get(
+            id_of_word_in_whole=number_in_whole,
+            user_email=user_email
+        )
+        whole_table_string.definition_of_word_in_whole = definition
+        whole_table_string.save()
         return ('Done!')
     except Exception as ex:
         return ('Что-то пошло не так :(\nEXCEPTION: {}'.format(ex))

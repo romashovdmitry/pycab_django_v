@@ -3,7 +3,7 @@ from . import telegram_api_request as tar
 from .buttonPatterns import patterns
 from .hash import hashing
 from .sql_transactions import SQLTransactions
-
+from table.models import MyUser, UserInfo, WholeVocab, DynamicVocab
 
 def requests_list(message: str, telegram_id: int):
     '''
@@ -18,36 +18,37 @@ def requests_list(message: str, telegram_id: int):
     '''
     if message == '/start':
         return tar.ButtonCreate(message_text='Привет! Напиши свою почту. ',
-                        chat_id=telegram_id,
-                        texts_of_button=['']).return_button()
+                                chat_id=telegram_id,
+                                texts_of_button=['']).return_button()
     try:
-        if SQLTransactions(telegram_id=telegram_id).validateLevel() is False:
+        if not UserInfo.objects.filter(telegram_id=telegram_id).exists():
             if '@' in message:
-                if SQLTransactions(
-                        user_email=message).validateEmailInTable() is True:
-                    SQLTransactions(user_level='start password', telegram_id=telegram_id).updateLevelByTelegramId()
-                    SQLTransactions(telegram_id=telegram_id,
-                                    user_email=message).setTelegramIdByEmail()
+                    user = MyUser.objects.filter(email=message).first()
+                    user_info = UserInfo.objects.get(user_email=message)
+                    user_info.user_level = 'start password'
+                    user_info.telegram_id = telegram_id
+                    user_info.save()
                     return tar.ButtonCreate(message_text='Кажется, ты написал почту. '
-                                                        'Теперь напиши пароль',
+                                            'Теперь напиши пароль',
                                             chat_id=telegram_id,
                                             texts_of_button=['']).return_button()
-                else:
-                    return tar.ButtonCreate(message_text='Напиши почту, '
-                                              'которую ты зарегистрировал '
-                                              'на сайте. Именно почту.\n '
-                                              'Если не зарегистрирован, то '
-                                              'следуте зарегистрироваться '
-                                              'сначала. Ссылка на сайт: '
-                                              'https://telegrampyvocab.herokuapp.com/registration',
-                                            chat_id=telegram_id,
-                                            texts_of_button=['']).return_button()
+            else:
+                return tar.ButtonCreate(message_text='Напиши почту, '
+                                        'которую ты зарегистрировал '
+                                        'на сайте. Именно почту.\n '
+                                        'Если не зарегистрирован, то '
+                                        'следуте зарегистрироваться '
+                                        'сначала. Ссылка на сайт: '
+                                        'https://telegrampyvocab.herokuapp.com/registration',
+                                        chat_id=telegram_id,
+                                        texts_of_button=['']).return_button()
+        
+        user = UserInfo.objects.filter(telegram_id=telegram_id).first().user_email
 
-        if SQLTransactions(telegram_id=telegram_id).validateLevel() is True:
-            email_of_user = SQLTransactions(
-                telegram_id=telegram_id).findUserEmailByTelegramId()
-            level = SQLTransactions(
-                telegram_id=telegram_id).findUserLevelByTelegramId()
+        if UserInfo.objects.filter(telegram_id=telegram_id).first().user_level is not None:
+            user_info = UserInfo.objects.filter(telegram_id=telegram_id).first()
+            email_of_user = user_info.user_email
+            level = user_info.user_level
             message_list = ['Добавить новое слово',
                             'Удалить слова',
                             'Внести изменения в словарь',
@@ -65,21 +66,18 @@ def requests_list(message: str, telegram_id: int):
                     patterns(message, telegram_id, email_of_user).check_word()
             elif level == 'start password':
                 try:
-                    print(f'From code: {hashing(message)}')
-                    if hashing(message) == SQLTransactions(
-                            telegram_id=telegram_id).findPasswordByTelegramId():
-                        SQLTransactions(user_email=email_of_user,
-                                        user_level='default').updateUserLevel()
+                    if hashing(message) == user.password:
+                        user_info.user_level = 'default'
+                        user_info.save()
                         return tar.ButtonCreate(message_text='Ты авторизован! '
-                                                      'Теперь добавь первое '
-                                                      'слово. '
-                                                      'Нажми кнопку. ',
-                                         chat_id=telegram_id,
-                                         texts_of_button=['Добавить '
-                                                          'новое слово']).\
+                                                'Теперь добавь первое '
+                                                'слово. '
+                                                'Нажми кнопку. ',
+                                                chat_id=telegram_id,
+                                                texts_of_button=['Добавить '
+                                                                 'новое слово']).\
                             return_button()
                     else:
-                        print('Point 2')
                         tar.ButtonCreate(message_text="Пароль не тот :("
                                                       "\nПопробуй еще раз, "
                                                       "пожалуйста. ",
@@ -90,34 +88,37 @@ def requests_list(message: str, telegram_id: int):
                     tar.ButtonCreate(message_text='Что-то пошло не так. '
                                                   'Посмотри внимательно свой '
                                                   'пароль. Напиши снова почту',
-                                                  chat_id=telegram_id, 
+                                                  chat_id=telegram_id,
                                                   texts_of_button=['']).\
-                                                  return_button()
+                        return_button()
             elif level == 'adding word':
-                SQLTransactions(
-                    user_email=email_of_user).updateAllStatusInWhole()
-                SQLTransactions(
-                    word_in_whole=message.rstrip()[::-1].rstrip()[::-1],
-                    user_email=email_of_user,
-                    status_of_word_in_whole='doing').insertWordInWhole()
-                SQLTransactions(user_level='adding_definition',
-                                user_email=email_of_user).updateUserLevel()
+                WholeVocab.objects.filter(user_email=email_of_user).update(status_of_word_in_whole='not done')
+                whole_vocab_string = WholeVocab()
+                print(f'\n\n{user}\n\n')
+                whole_vocab_string.add_new_string(
+                    word=message.rstrip()[::-1].rstrip()[::-1],
+                    user=user
+                )
+                whole_vocab_string.new_level('doing')
+                user_info.user_level = 'adding_definition'
+                user_info.save()
                 tar.ButtonCreate(message_text='Напиши дефиницию или '
                                               'перевод данного слова.',
-                                 chat_id=telegram_id, 
+                                 chat_id=telegram_id,
                                  texts_of_button=['Добавить новое слово',
                                                   'Удалить слова',
                                                   'Внести изменения '
                                                   'в словарь']).\
                     return_button()
             elif level == 'adding_definition':
-                SQLTransactions(
-                    definition=message.rstrip()[::-1].rstrip()[::-1],
-                    user_email=email_of_user).insertDefinitionInWhole()
-                SQLTransactions(user_level='default',
-                                user_email=email_of_user).updateUserLevel()
+                whole_vocab_string = WholeVocab.objects.filter(
+                    user_email=email_of_user).filter(
+                    status_of_word_in_whole='doing').first()
+                whole_vocab_string.definition_of_word_in_whole = message.rstrip()[::-1].rstrip()[::-1]
+                user_info.user_level = 'default'
+                user_info.save()
                 tar.ButtonCreate(message_text='Новое слово добавлено.',
-                                 chat_id=telegram_id, 
+                                 chat_id=telegram_id,
                                  texts_of_button=['Добавить новое слово',
                                                   'Проверять слова!',
                                                   'Внести изменения в словарь',
@@ -126,9 +127,10 @@ def requests_list(message: str, telegram_id: int):
             elif level == 'default':
                 bul, word = operations.checking_word(message, email_of_user)
                 if bul is True:
-                    mes = 'Правильно. ' + '\n\n' + operations.show_word(email_of_user)
+                    mes = 'Правильно. ' + '\n\n' + \
+                        operations.show_word(email_of_user)
                     tar.ButtonCreate(message_text=mes,
-                                     chat_id=telegram_id, 
+                                     chat_id=telegram_id,
                                      texts_of_button=['Добавить новое слово',
                                                       'Внести изменения в '
                                                       'словарь',
@@ -136,7 +138,7 @@ def requests_list(message: str, telegram_id: int):
                                                       'Проверять слова!']).\
                         return_button()
                 else:
-                    text = f'Неправильно.\nПравильно так: {word} \n\n' 
+                    text = f'Неправильно.\nПравильно так: {word} \n\n'
                     mes = f'{text} {operations.show_word(email_of_user)}'
                     tar.ButtonCreate(message_text=mes,
                                      chat_id=telegram_id,
@@ -147,20 +149,19 @@ def requests_list(message: str, telegram_id: int):
                                                       'Проверять слова!']).\
                         return_button()
             elif level == 'deleting':
-                wholevocab = SQLTransactions(
-                    user_email=email_of_user).selectAllInWholeVocabByEmail()
-                if len(wholevocab) > 0: 
+                wholevocab = WholeVocab.objects.filter(user_email=email_of_user).all()
+                if len(wholevocab) > 0:
                     delete_message = operations.delete_word(
                         numbers=message,
-                        email_of_user=email_of_user)
+                        user_email=email_of_user)
                     if "Пожалуйста" in delete_message:
                         tar.ButtonCreate(message_text='Пожалуйста, не '
-                                                      'используйте буквы, ' 
+                                                      'используйте буквы, '
                                                       'предпочтительно '
                                                       'использовать '
                                                       'такой формат: '
-                                                      '\n\n 1, 2, 3', 
-                                         chat_id=telegram_id, 
+                                                      '\n\n 1, 2, 3',
+                                         chat_id=telegram_id,
                                          texts_of_button=['Добавить новое '
                                                           'слово',
                                                           'Проверять слова!',
@@ -192,12 +193,11 @@ def requests_list(message: str, telegram_id: int):
                 definition = operations.modificate_word(message, email_of_user)
                 if 'Что-то пошло не так' in definition:
                     tar.ButtonCreate(message_text=definition,
-                                     chat_id=telegram_id, 
+                                     chat_id=telegram_id,
                                      texts_of_button=['']).return_button()
                 else:
-                    SQLTransactions(user_email=email_of_user, 
-                                    user_level='modificate definition').\
-                                updateUserLevel()
+                    user_info.user_level = 'modificate definition'
+                    user_info.save()
                     tar.ButtonCreate(message_text=definition,
                                      chat_id=telegram_id,
                                      texts_of_button=['Добавить новое слово',
@@ -214,7 +214,7 @@ def requests_list(message: str, telegram_id: int):
                                  chat_id=telegram_id,
                                  texts_of_button=['Добавить новое слово',
                                                   'Удалить слова',
-                                                  'Проверять слова!', 
+                                                  'Проверять слова!',
                                                   'Внести изменения в словарь']
                                  ).return_button()
     except Exception as ex:

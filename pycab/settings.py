@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 webghook API Telegram: 
 
-https://api.telegram.org/bot{os.getenv('TELEGRAM_TOKEN')}/setWebhook?url={NGROK}}
-https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://e614-217-76-10-93.eu.ngrok.io/telegram
+https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWebhook?url=https://8e5c-217-76-10-136.eu.ngrok.io/telegram
 
 """
 

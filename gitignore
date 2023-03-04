@@ -12,4 +12,9 @@ __pycache__/
 __pycache__
 *__pycache__
 
+# secret data like telegram TOKEN and an other
 .env
+
+# for tests on local
+ngrok.exe
+typical_commands.txt
