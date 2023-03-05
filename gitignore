@@ -1,7 +1,13 @@
-pycab_screencast.mp4
-__pycache__/
-table/backendAndTelegram/sql_transactions.py
+# python files
+__pycache__
 *.pyc
+
+# screencast of app
+pycab_screencast.mp4
+
+# file with sql+
+table/backendAndTelegram/sql_transactions.py
+
 # secret data like telegram TOKEN and an other
 .env
 
