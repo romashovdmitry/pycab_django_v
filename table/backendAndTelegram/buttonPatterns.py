@@ -18,13 +18,13 @@ class patterns:
     '''
 
     def __init__(self, message, chat_id, user_email):
-        # инициализируем атрибуты
+        # initialize properties
         self.message = message
         self.chat_id = chat_id
         self.user_email = user_email
 
     def make_req(self, dict_of_communication):
-        # формируем атрибуты для запроса и меняем уровень
+        # generates attributes for the request and change the level
         texts_of_button = dict_of_communication.get(self.message)['buttons']
         level = dict_of_communication.get(self.message)['level']
         user_info = UserInfo.objects.get(user_email=self.user_email)
@@ -37,8 +37,7 @@ class patterns:
             texts_of_button=texts_of_button).return_button()
 
     def add_word(self):
-        # в каждом случае делаем специиальный словарь, из которого берутся
-        # кнопки для формирования кнопок
+        # make special dict for creating buttoms in Telegram Bot
         dict_of_add = {
             'Добавить новое слово': {
                 'buttons': [

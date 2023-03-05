@@ -210,14 +210,14 @@ def modificate_word(message: str, user_email: str) -> str:
             dynamic_table_string.status_of_word_in_dynamic = 'modif'
             dynamic_table_string.save()
             definition_of_word = dynamic_table_string.definition_in_dynamic
-            definition_of_word = ("Дефиниция у слова следующая:\n\n {}. \n\nНапиши "
-                                  "теперь верную дефиницию.").format(
-                definition_of_word)
+            definition_of_word = ("Дефиниция у слова следующая:\n\n"
+                                  f"{definition_of_word}. \n\nНапиши "
+                                  "теперь верную дефиницию.")
             return definition_of_word
         except Exception as ex:
             return ("Что-то пошло не так. Попробуй, пожалуйста, набрать только"
                     " номер, без других символов. Возможно, в этом дело. "
-                    "Exception: {}".format(ex))
+                    f"Exception: {ex}")
     else:
         try:
             number_and_word = message.rsplit('.', 1)
@@ -244,11 +244,12 @@ def modificate_word(message: str, user_email: str) -> str:
 
             definition_of_word = dynamic_table_string.definition_in_dynamic
 
-            returning_message = ("Слово изменено. Дефиниция у него такая: \n\n{}"
-                                 "\n\nНапиши теперь верную дефиницию для слова. "
+            returning_message = ("Слово изменено. Дефиниция у него такая: \n\n"
+                                 f"{definition_of_word}\n\n"
+                                 "Напиши теперь верную дефиницию для слова. "
                                  "Если менять ее не надо, то можешь просто "
                                  "скопировать написанную выше, либо вызвать "
-                                 "другую команду. ".format(definition_of_word))
+                                 "другую команду. ")
             return (returning_message)
         except Exception:
             return ("Что-то пошло не так. Попробуй еще разок "
@@ -272,4 +273,4 @@ def modificate_definition(definition: str, user_email: str) -> str:
         whole_table_string.save()
         return ('Done!')
     except Exception as ex:
-        return ('Что-то пошло не так :(\nEXCEPTION: {}'.format(ex))
+        return (f'Что-то пошло не так :(\nEXCEPTION: {ex}')

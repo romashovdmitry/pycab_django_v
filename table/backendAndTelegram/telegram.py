@@ -57,7 +57,7 @@ def requests_list(message: str, telegram_id: int):
             if message in message_list:
                 if message == "Добавить новое слово":
                     patterns(message=message, chat_id=telegram_id,
-                             user_email_id=email_of_user).add_word()
+                             user_email=email_of_user).add_word()
                 elif message == 'Удалить слова':
                     patterns(message, telegram_id, email_of_user).delete_word()
                 elif message == 'Внести изменения в словарь':
@@ -94,7 +94,6 @@ def requests_list(message: str, telegram_id: int):
             elif level == 'adding word':
                 WholeVocab.objects.filter(user_email=email_of_user).update(status_of_word_in_whole='not done')
                 whole_vocab_string = WholeVocab()
-                print(f'\n\n{user}\n\n')
                 whole_vocab_string.add_new_string(
                     word=message.rstrip()[::-1].rstrip()[::-1],
                     user=user
@@ -115,6 +114,7 @@ def requests_list(message: str, telegram_id: int):
                     user_email=email_of_user).filter(
                     status_of_word_in_whole='doing').first()
                 whole_vocab_string.definition_of_word_in_whole = message.rstrip()[::-1].rstrip()[::-1]
+                whole_vocab_string.save()
                 user_info.user_level = 'default'
                 user_info.save()
                 tar.ButtonCreate(message_text='Новое слово добавлено.',
@@ -207,7 +207,6 @@ def requests_list(message: str, telegram_id: int):
                                                       'в словарь']).\
                         return_button()
             elif level == 'modificate definition':
-                print('Point 4')
                 result_of_operation = operations.modificate_definition(
                     message, email_of_user)
                 tar.ButtonCreate(message_text=result_of_operation,

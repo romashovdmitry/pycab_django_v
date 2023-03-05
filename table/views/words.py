@@ -47,7 +47,7 @@ def table(request):
         word, definition = None, None  # вот это надо заменить form_cleaned()
         return redirect('table')
     records = WholeVocab.objects.filter(user_email=email_adress).all()
-    return render(request, 'table.html', {'records': records})
+    return render(request, 'table_pages/table.html', {'records': records})
 
 
 def modify_word(request, pk):
@@ -67,12 +67,11 @@ def modify_word(request, pk):
             return redirect('table')
         request.session['pk'] = pk
         vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
-        print(f'\n\nHELLO {vocab_string}\n\n')
         word_and_definition = {
             'word': vocab_string.word_in_whole,
             'definition': vocab_string.definition_of_word_in_whole
         }
-        return render(request, 'modify_word.html', {
+        return render(request, 'table_pages/modify_word.html', {
             'word_and_definition': word_and_definition
         })
     except Exception:

@@ -51,7 +51,7 @@ class WholeVocab(models.Model):
         self.status_of_word_in_whole = status
         self.save()
 
-    def add_new_string(self, user, word=None, definition=None):
+    def add_new_string(self, user, word=None, definition='no definition :('):
         self.word_in_whole = word
         self.definition_of_word_in_whole = definition
         self.user_email = user

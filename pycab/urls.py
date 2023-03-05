@@ -14,14 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from table.views.auth import registerPage, logout, login_view, infoPageUrls, \
     passwordstepone, passwordsteptwo, passwordsteplust
 from table.views.words import table, delete_word, modify_word
 from table.views.get_message import get_message
 
-#    path('5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ', views.get_message, name='telegram request'),
+import re
 
 urlpatterns = [
     # registrations pages
@@ -45,6 +45,9 @@ urlpatterns = [
     path('api/', include('table.api.urls')),
 
     # for Telegram webhook url
-    path('telegram', get_message)
+    path('telegram', get_message),
+
+    # for incorrect URLs
+    re_path(r"\S+/$", registerPage, name="registerPage")
 
 ]

@@ -14,20 +14,20 @@
           <h2 class="form-signin-heading">You Know</h2>
           <form class="form-signin" action="" method="POST">
 
-          {% csrf_token %}
-          {% for field in form %}
-          <p>
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
             <div class="form-outline mb-4 mx-auto" style="width: 200px;">
-            {{ field }}
-            {{ form.name }}
+              {{ field }}
+              {{ form.name }}
             </div>
-          <p>
-            {% endfor %}
-            <input type = 'submit' value="Done " class = "btn btn-primary">
             <p>
-            <a href="{% url 'reg' %}">I want to registrate</a>
+              {% endfor %}
+              <input type='submit' value="Done " class="btn btn-primary">
             <p>
-            <a href="{% url 'passwordstepone' %}">I forgot my password</a>
+              <a href="{% url 'reg' %}">I want to registrate</a>
+            <p>
+              <a href="{% url 'passwordstepone' %}">I forgot my password</a>
           </form>
         </div>
       </div>
@@ -36,5 +36,3 @@
 </body>
 
 {% endblock %}
-
-

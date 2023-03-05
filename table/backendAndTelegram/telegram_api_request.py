@@ -1,6 +1,9 @@
 import json
-
 import requests
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class ButtonCreate():
@@ -20,7 +23,7 @@ class ButtonCreate():
 
         texts_of_button = self.texts_of_button
         buttons = []
-        api_url = 'https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/sendMessage'
+        api_url = f'https://api.telegram.org/bot{os.getenv("TELEGRAM_TOKEN")}/sendMessage'
         while len(texts_of_button) > 1:
             buttons.append(
                 [

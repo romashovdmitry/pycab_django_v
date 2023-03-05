@@ -3,6 +3,7 @@ from ..backendAndTelegram.telegram import requests_list
 from django.shortcuts import HttpResponse
 import json
 
+
 @csrf_exempt
 def get_message(request):
     '''URL to get data(from request) from Telegram server'''
@@ -15,5 +16,5 @@ def get_message(request):
             requests_list(message, chat_id)
             return HttpResponse(status=200)
     except Exception as ex:
-        return HttpResponse("Bot Don't Work, Look At views.get_message. \
-                            Exception: {}".format(ex))
+        return HttpResponse("Bot Don't Work, Look At views.get_message."
+                            f"Exception: {Exception}")
