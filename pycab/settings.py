@@ -15,6 +15,9 @@ https://api.telegram.org/bot5630063573:AAGMtKDZiz8Eigwkw8JZXJR2F2yEIM-U6rQ/setWe
 
 """
 
+import os
+from django.contrib.messages import constants as messages
+
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -164,6 +167,11 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
+#https://ordinarycoders.com/blog/article/django-messages-framework
+MESSAGE_TAGS = {
+        messages.INFO: 'alert-info',
+        messages.ERROR: 'alert-danger',
+ }
 
 '''
 REST_FRAMEWORK = {

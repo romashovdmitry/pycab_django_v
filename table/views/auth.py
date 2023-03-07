@@ -1,7 +1,7 @@
 # delete imports after modifications
 from sqlalchemy import create_engine
 
-# built-in django packages 
+# built-in django packages
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout as user_logout
@@ -43,7 +43,6 @@ def registerPage(request):
             user.email = user.email.lower()
             user.password = hashing(user.password)
             user.save()
-            form.save()
             login(request, user)
 
             new_user_info = UserInfo()
@@ -55,31 +54,30 @@ def registerPage(request):
         else:
             messages.error(request, "anything go wrong :( Please, try again. ")
             form = myForm()
-            return render(request, 'user_register.html', {'form': form})
+            return render(request, 'auth_pages/user_register.html', {'form': form})
     if request.user.is_authenticated:
         return redirect('table')
     form = myForm()
-    return render(request, 'user_register.html', {'form': form})
+    return render(request, 'auth_pages/user_register.html', {'form': form})
 
 
 def login_view(request):
     if request.method == 'POST':
-        form = myForm(request.POST)
-        form_email = form['email']
-        if MyUser.objects.filter(email=form_email).exists():
-            email = request.POST.get('email').lower()
-            password = form['password']
+        email = request.POST.get('email').lower()
+        if MyUser.objects.filter(email=email).exists():
+            password = request.POST.get('password')
             user = MyUser.objects.get(email=email)
             true_password = user.password
             if hashing(password) == true_password: 
                 login(request, user)
+                return redirect('table')
             else:
-                messages.error(request, "Didn't find this data :(")
+                messages.error(request, "Wrong password :(")
         else:
-            messages.error(request, "Didn't find this data :(")
-            return render(request, 'infopage_urls.html') if hashing(password) == true_password else HttpResponse('nope login')
+            messages.error(request, "Didn't find this email :(")
     form = myForm()
-    return render(request, 'user_login.html', {'form': form})
+    return render(request, 'auth_pages/user_login.html', {'form': form})
+
 
 def passwordstepone(request):
     if request.method == 'POST':
@@ -102,8 +100,8 @@ def passwordsteptwo(request):
         password = request.POST.get('password')
         fake_password = request.session['fake_password']
         em = request.session['email-for-user']
-        if password == fake_password:    
-#            del request.session['fake_password']
+        if password == fake_password:
+            #            del request.session['fake_password']
             return render(request, 'passwordsteplust.html')
     return HttpResponse('nope')
 
@@ -120,6 +118,7 @@ def passwordsteplust(request):
         login(request, user)
         messages.info(request, f'Password for {user.email} is modified!')
         return redirect('login')
+
 
 def logout(request):
     user_logout(request)
