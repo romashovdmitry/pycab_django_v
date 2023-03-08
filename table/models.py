@@ -40,7 +40,8 @@ class WholeVocab(models.Model):
     id_of_word_in_whole = models.BigAutoField(primary_key=True,
                                               null=False)
     word_in_whole = models.CharField(max_length=200,
-                                     null=False)
+                                     null=False,
+                                     verbose_name='Word')
     definition_of_word_in_whole = models.CharField(max_length=2000,
                                                    null=True)
     status_of_word_in_whole = models.CharField(max_length=10,

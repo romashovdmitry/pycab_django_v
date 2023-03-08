@@ -4,8 +4,14 @@
 
 {% if messages %}
 {% for message in messages %}
-<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
-{% endfor %}
+<div class="container-fluid p-0">
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    </button>
+    {{ message }}
+  </div>
+</div>
+{% endfor %}    
+{% else %}
 {% endif %}
 
 <form action="{% url 'table' %}" method="post">{% csrf_token %}

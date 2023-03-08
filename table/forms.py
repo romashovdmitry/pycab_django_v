@@ -25,7 +25,25 @@ class vocabRecord(forms.ModelForm):
 
     class Meta:
         model = WholeVocab
-        fields = ('word_in_whole', 'definition_of_word_in_whole')
+        fields = (
+            'word_in_whole', 
+            'definition_of_word_in_whole', 
+            'id_of_word_in_whole'
+        )
+
+        widgets = {
+            'word_in_whole': forms.TextInput(attrs={
+                'type': 'text',
+                'class': 'form-control',
+                'name': 'word',
+                'autofocus': True
+            }),
+            'definition_of_word_in_whole': forms.TextInput(attrs={
+                'type': 'text',
+                'class': 'form-control',
+                'name': 'definition'
+            })
+        }
 
 
 class newPasswordForm(forms.Form):
