@@ -1,14 +1,15 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import uuid
 
 # https://stackoverflow.com/questions/54751466/django-does-not-honor-on-delete-cascade
 
-
+# https://stackoverflow.com/questions/64319543/cannot-cast-type-integer-to-uuid
 class MyUser(AbstractUser):
 
     class Meta:
         db_table = 'users'
-
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     username = models.CharField(unique=True, blank=True, null=True,
                                 max_length=200)
     email = models.EmailField(unique=True)

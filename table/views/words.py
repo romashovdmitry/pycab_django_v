@@ -10,7 +10,7 @@ from django.shortcuts import HttpResponse, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
 # custom django classes
-from ..forms import myForm
+from ..forms import myForm, vocabRecord
 from ..models import MyUser, UserInfo, WholeVocab, DynamicVocab
 
 # custom classes
@@ -46,33 +46,30 @@ def table(request):
         messages.info(request, f'Word {word} is added!')
         word, definition = None, None  # вот это надо заменить form_cleaned()
         return redirect('table')
+    form = vocabRecord()
     records = WholeVocab.objects.filter(user_email=email_adress).all()
-    return render(request, 'table_pages/table.html', {'records': records})
+    return render(request, 'table_pages/table.html', {'records': records, 'form': form})
+
+# https://stackoverflow.com/questions/526457/django-form-fails-validation-on-a-unique-field
 
 
 def modify_word(request, pk):
     try:
         if request.method == 'POST':
-            word = request.POST.get('word')
-            definition = request.POST.get('definition')
-            session_pk = int(request.session['pk'].replace(' ', ''))
+            vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
+            form = vocabRecord(request.POST, instance=vocab_string)
             del request.session['pk']
-            vocab_string = WholeVocab.objects.filter(
-                id_of_word_in_whole=session_pk).first()
-            vocab_string.update_string(
-                word=word,
-                definition=definition
-            )
-            messages.info(request, f'Word {word} is changed!')
-            return redirect('table')
+            if form.is_valid():
+                form.save()
+                messages.info(request, f'Word {vocab_string.word_in_whole}'
+                              ' is changed!')
+                return redirect('table')
         request.session['pk'] = pk
         vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
-        word_and_definition = {
-            'word': vocab_string.word_in_whole,
-            'definition': vocab_string.definition_of_word_in_whole
-        }
+        form = vocabRecord(instance=vocab_string)
         return render(request, 'table_pages/modify_word.html', {
-            'word_and_definition': word_and_definition
+            'form': form,
+            'pk': pk
         })
     except Exception:
         return HttpResponse("SOMETHING SHIT HAPPENS!")
