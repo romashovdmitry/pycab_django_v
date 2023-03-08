@@ -1,3 +1,0 @@
-docker exec -it pgdb psql -U postgres
-\c pycab_django_db
-docker exec -t -i 0d47df40431e bash
