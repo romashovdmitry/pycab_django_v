@@ -12,5 +12,4 @@ table/backendAndTelegram/sql_transactions.py
 .env
 
 # for tests on local
-ngrok.exe
 typical_commands.txt
