@@ -195,7 +195,8 @@ def delete_word(numbers: str, user_email: str) -> str:
 
 def modificate_word(message: str, user_email: str) -> str:
     '''Foo modificate word and status of word'''
-    if (re.search('[a-z]', message)) is None:       # if no letters in message
+    if (re.search('[a-z]', message)) is None \
+            and (re.search('[а-я]', message)) is None:       # if no letters in message
         message = re.sub('[\s]', '', message)       # remove spaces
         message = int(re.sub('[.,]', '', message))  # remove dots and commas
         try:
