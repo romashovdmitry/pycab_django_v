@@ -8,4 +8,5 @@ set_webhook = f'https://api.telegram.org/bot{os.getenv("TELEGRAM_TOKEN")}/setWeb
 delete_webhook = f'https://api.telegram.org/bot{os.getenv("TELEGRAM_TOKEN")}/deleteWebhook'
 
 requests.post(url=delete_webhook)
-requests.post(url=set_webhook)
+x = requests.post(url=set_webhook)
+print('done: {x}')
