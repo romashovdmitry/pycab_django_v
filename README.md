@@ -1,3 +1,9 @@
+# Value of project
+
+Project is create fir improving English vocabulary by saving new words with definitions and checking them by random dispatching in Telegram Bot. Core of project consist of Django routes, PostgreSQL and Telegram Bot. 
+
+It's better for more understanding to watch video in link bellow:
+
 [ScreenCast of working project](https://drive.google.com/file/d/1VURc_v0Dh70kg3wuql9qqbRDDh_3qni3/view?usp=sharing)
 
 # How To Run on local machine
