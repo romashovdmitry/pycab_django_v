@@ -1,27 +1,10 @@
-"""pycab URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include, re_path
 
 from table.views.auth import registerPage, logout, login_view, infoPageUrls, \
-    passwordstepone, passwordsteptwo, passwordsteplust
+    password_step_first, password_step_second, password_step_lust
 from table.views.words import table, delete_word, modify_word
 from table.views.get_message import get_message
-
-import re
 
 urlpatterns = [
     # registrations pages
@@ -37,9 +20,12 @@ urlpatterns = [
     path('modify/<pk>', modify_word, name='modify'),
 
     # recreating password pages
-    path('newpasswordstepone', passwordstepone, name='passwordstepone'),
-    path('passwordsteptwo', passwordsteptwo, name='passwordsteptwo'),
-    path('passwordsteplust', passwordsteplust, name='passwordsteplust'),
+    path('newpassword_step_first', password_step_first,
+         name='password_step_first'),
+    path('password_step_second', password_step_second,
+         name='password_step_second'),
+    path('password_step_lust', password_step_lust,
+         name='password_step_lust'),
 
     # api url
     path('api/', include('table.api.urls')),

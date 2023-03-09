@@ -1,25 +1,19 @@
-# delete imports after modifications
-from sqlalchemy import create_engine
-
 # built-in django packages
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse, redirect, render
-from django.views.decorators.csrf import csrf_exempt
 
 # custom django classes
-from ..forms import myForm
-from ..models import MyUser, UserInfo
+from table.forms import myForm
+from table.models import MyUser, UserInfo
 
 # custom classes
-from ..backendAndTelegram.hash import hashing
-from ..backendAndTelegram.sql_transactions import SQLTransactions
-from ..backendAndTelegram.telegram import requests_list
+from table.backendAndTelegram.hash import hashing
 
 # redis
-from ..tasks import py_send_mail
+from table.tasks import py_send_mail
 
 # etc libs
 import json
@@ -79,7 +73,7 @@ def login_view(request):
     return render(request, 'auth_pages/user_login.html', {'form': form})
 
 
-def passwordstepone(request):
+def password_step_first(request):
     if request.method == 'POST':
         em = request.POST.get('email')
         if MyUser.objects.filter(email=em).exists():
@@ -89,24 +83,24 @@ def passwordstepone(request):
             request.session['fake_password'] = fake_password
             py_send_mail.delay(
                 adress=em, code=fake_password)
-            return render(request, 'passwordsteptwo.html')
+            return render(request, 'password_step_second.html')
         else:
             return HttpResponse(f'ther is no this email: {em}')
-    return render(request, 'passwordstepone.html')
+    return render(request, 'password_step_first.html')
 
 
-def passwordsteptwo(request):
+def password_step_second(request):
     if request.method == 'POST':
         password = request.POST.get('password')
         fake_password = request.session['fake_password']
         em = request.session['email-for-user']
         if password == fake_password:
             #            del request.session['fake_password']
-            return render(request, 'passwordsteplust.html')
+            return render(request, 'password_step_lust.html')
     return HttpResponse('nope')
 
 
-def passwordsteplust(request):
+def password_step_lust(request):
     if request.method == 'POST':
         new_password = request.POST.get('password')
         new_password = hashing(new_password)

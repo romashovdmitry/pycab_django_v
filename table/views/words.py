@@ -3,23 +3,12 @@ from sqlalchemy import create_engine
 
 # built-in django packages
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth import logout as user_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse, redirect, render
-from django.views.decorators.csrf import csrf_exempt
 
 # custom django classes
-from ..forms import myForm, vocabRecord
-from ..models import MyUser, UserInfo, WholeVocab, DynamicVocab
-
-# custom classes
-from ..backendAndTelegram.hash import hashing
-from ..backendAndTelegram.sql_transactions import SQLTransactions
-
-
-# redis
-from ..tasks import py_send_mail
+from table.forms import vocabRecord
+from table.models import WholeVocab
 
 # etc libs
 import json
@@ -50,21 +39,18 @@ def table(request):
     records = WholeVocab.objects.filter(user_email=email_adress).all()
     return render(request, 'table_pages/table.html', {'records': records, 'form': form})
 
+
 # https://stackoverflow.com/questions/526457/django-form-fails-validation-on-a-unique-field
-
-
 def modify_word(request, pk):
     try:
         if request.method == 'POST':
             vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
             form = vocabRecord(request.POST, instance=vocab_string)
-            del request.session['pk']
             if form.is_valid():
                 form.save()
                 messages.info(request, f'Word {vocab_string.word_in_whole}'
                               ' is changed!')
                 return redirect('table')
-        request.session['pk'] = pk
         vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
         form = vocabRecord(instance=vocab_string)
         return render(request, 'table_pages/modify_word.html', {
