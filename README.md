@@ -25,8 +25,7 @@ Find Django-docker container id by command
 
 Come in container
 
-<code>docker exec -t -i id_of_container
-  bash</code>
+<code>docker exec -t -i id_of_container bash</code>
 
 And set webhook firstly by command
 
