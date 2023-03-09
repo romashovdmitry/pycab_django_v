@@ -3,7 +3,6 @@ import re
 from typing import Tuple
 
 from . import telegram_api_request as tar
-from .sql_transactions import SQLTransactions
 
 from table.models import WholeVocab, DynamicVocab
 from table.models import MyUser, UserInfo

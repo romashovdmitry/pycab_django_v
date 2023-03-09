@@ -1,5 +1,4 @@
 from . import operations, telegram_api_request
-from .sql_transactions import SQLTransactions
 
 from table.models import MyUser, UserInfo
 

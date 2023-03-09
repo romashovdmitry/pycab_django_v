@@ -2,7 +2,6 @@ from . import operations
 from . import telegram_api_request as tar
 from .buttonPatterns import patterns
 from .hash import hashing
-from .sql_transactions import SQLTransactions
 from table.models import MyUser, UserInfo, WholeVocab, DynamicVocab
 
 def requests_list(message: str, telegram_id: int):
