@@ -4,9 +4,7 @@ Project is create for improving English vocabulary by saving new words with defi
 
 It's better for more understanding to watch video in link bellow:
 
-(https://youtu.be/Kjbo7WEAOno)
-
-[ScreenCast of working project](https://drive.google.com/file/d/1VURc_v0Dh70kg3wuql9qqbRDDh_3qni3/view?usp=sharing)
+[ScreenCast of working project](https://www.youtube.com/watch?v=Kjbo7WEAOno)
 
 ## Stack of technologies: 
 - SQL commands, PostgreSQL, Django ORM
