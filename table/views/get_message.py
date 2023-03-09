@@ -1,5 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
-from ..backendAndTelegram.telegram import requests_list
+from table.backendAndTelegram.telegram import requests_list
 from django.shortcuts import HttpResponse
 import json
 
@@ -17,4 +17,4 @@ def get_message(request):
             return HttpResponse(status=200)
     except Exception as ex:
         return HttpResponse("Bot Don't Work, Look At views.get_message."
-                            f"Exception: {Exception}")
+                            f"Exception: {ex}")
