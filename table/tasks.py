@@ -3,6 +3,7 @@ from celery import shared_task
 from django.core.mail import send_mail
 import smtplib
 import ssl
+from pycab.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 
 import os
 from dotenv import load_dotenv
@@ -11,15 +12,15 @@ load_dotenv()
 @shared_task
 def py_send_mail(code, adress):
 
-    sender = os.getenv('EMAIL_HOST_USER')
+    sender = EMAIL_HOST_USER
     reciever = 'romashov.dmitry.o@gmail.com'
-    gmail_password = os.getenv('EMAIL_HOST_PASSWORD')
+    gmail_password = EMAIL_HOST_PASSWORD
 
     em = EmailMessage()
-    em['From'] = 'romashov.dmitry.py@gmail.com'
-    em['To'] = 'romashov.dmitry.o@gmail.com'
-    em['subject'] = 'hello'
-    em.set_content("Your's Code For Pycab")
+    em['From'] = sender
+    em['To'] = reciever
+    em['subject'] = "hello, your's code!"
+    em.set_content(f"Your's Code For Pycab: {code}")
 
     context = ssl.create_default_context()
 
