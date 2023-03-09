@@ -50,17 +50,16 @@ For web interface have used simple HTML and Bootstrap styles: https://getbootstr
 
 1. To add simple math models for less random output of words. Now output is absolutely random. That's not cool, because to remember some words are more easily than others. And if you have 1000 words, than difficult words just can not to be showed in Telegram bot. 
 2. Division any certain amount of words on pages (pagination). Like on one page could be maximum 100 words. Because if you have 1000 words, loading of page could be very slow. 
-3. To add password recovery by email. 
 
 ## Stack of technologies: 
-- SQL commands, PostgreSQL
+- SQL commands, PostgreSQL, Django ORM
 - Telegram API
 - JSON, requests
-- little bit of regular expressions
+- regular expressions
 - Django, Django-packages, Jinja syntax
 - formatting strings
 - Redis as message-broker for Celery
-- little bit of network knowledge, like WebHook, SSH for testing  
+- network knowledge, like WebHook, SSH for testing  
 - HTML, Bootstrap, CSS
 - Hashing
 - OOP
