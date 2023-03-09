@@ -6,6 +6,25 @@ It's better for more understanding to watch video in link bellow:
 
 [ScreenCast of working project](https://drive.google.com/file/d/1VURc_v0Dh70kg3wuql9qqbRDDh_3qni3/view?usp=sharing)
 
+Or you can watch right here
+
+VIDEOVIDEOVIDEO
+
+## Stack of technologies: 
+- SQL commands, PostgreSQL, Django ORM
+- Telegram API
+- JSON, requests (python HTTP library)
+- regular expressions
+- Django, Django-packages, Jinja syntax
+- formatting strings
+- Redis as message-broker for Celery
+- network knowledge, like WebHook, SSH for testing  
+- HTML, Bootstrap, CSS
+- Hashing
+- OOP
+- Docker
+
+
 # How To Run on local machine
 
 Run Ngrok server by
@@ -58,17 +77,3 @@ For web interface have used simple HTML and Bootstrap styles: https://getbootstr
 
 1. To add simple math models for less random output of words. Now output is absolutely random. That's not cool, because to remember some words are more easily than others. And if you have 1000 words, than difficult words just can not to be showed in Telegram bot. 
 2. Division any certain amount of words on pages (pagination). Like on one page could be maximum 100 words. Because if you have 1000 words, loading of page could be very slow. 
-
-## Stack of technologies: 
-- SQL commands, PostgreSQL, Django ORM
-- Telegram API
-- JSON, requests
-- regular expressions
-- Django, Django-packages, Jinja syntax
-- formatting strings
-- Redis as message-broker for Celery
-- network knowledge, like WebHook, SSH for testing  
-- HTML, Bootstrap, CSS
-- Hashing
-- OOP
-- Docker
