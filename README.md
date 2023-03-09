@@ -1,28 +1,27 @@
-# How To Run
-
-Run docker-compose command 
-
-<code>docker compose up</code>
+# How To Run on local machine
 
 Run Ngrok server by
 
-<code>ngrok http 8000</code> or if you get error abount rights of user<code>.\nhrok http 8000</code>
+<code>ngrok http 8000</code> or if you get error abount rights of user<code>.\ngrok http 8000</code>
 
 Get domain of ngrok's URL. Example: 
 
-<code>79a6-2a02-2a57-a268-0-4d6d-3846-5680-87df.eu.ngrok.io </code>
+<code>https://2fd1-83-139-27-28.eu.ngrok.io </code>
 
-Set domain in variable NGROK in settings.py. There is link in line 14 for making WebHook. Set domain instead of <code>NGROK</code>. 
-Remember that you need to have telegram bot for using app. 
-
-Set your's adress and password instead of EMAIL configuration variables in the end of settings.py. 
+Open .env file and set domain in variable NGROK in settings.py. Remember that you need to have telegram bot for using app and also set values in other .env variables before next steps. Set your's adress and password instead of EMAIL configuration variables. 
 
 <code>
 EMAIL_HOST_USER = 'yoursmail@gmail.com'
 EMAIL_HOST_PASSWORD = 'yourspassword'
 </code>
 
-Open in your's browser <code>https://ngrokdomain/registration</code> and enjoy. 
+These two variables could be depend on used service.
+
+Run docker-compose command 
+
+<code>docker compose up</code>
+
+Open in your's browser <code>http://127.0.0.1:8000/</code> and enjoy. 
 
 # Python code
 
@@ -33,7 +32,7 @@ Mainly, project consists of 2 parts:
 
 URLs and views are in their respective folders, telegram.py include function requests_list, that processes incoming messages in Telegram bot. Mainly by using "flag" (level) code choose functions from module operations.py and use them to construct answers for user. 
 
-# Flask Web Interface
+# Django Web Interface
 
 For web interface have used simple HTML and Bootstrap styles: https://getbootstrap.com
 
