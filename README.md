@@ -21,6 +21,18 @@ Run docker-compose command
 
 <code>docker compose up</code>
 
+Find Django-docker container id by command 
+
+<code>docker ps</code>
+
+Come in container
+
+<code>docker exec -t -i <id of container> bash</code>
+
+And set webhook firstly by command
+
+<code>python3 make_webhook_firstly.py</code>
+
 Open in your's browser <code>http://127.0.0.1:8000/</code> and enjoy. 
 
 # Python code
