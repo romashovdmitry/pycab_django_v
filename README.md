@@ -6,8 +6,6 @@ It's better for more understanding to watch video in link bellow:
 
 [ScreenCast of working project](https://www.youtube.com/watch?v=Kjbo7WEAOno)
 
-<iframe src='//gifs.com/embed/A6Y9jp' frameborder='0' scrolling='no' width='1912px' height='982px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
-
 ## Stack of technologies: 
 - SQL commands, PostgreSQL, Django ORM
 - Telegram API
