@@ -9,21 +9,14 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
 @shared_task
 def py_send_mail(code, adress):
 
-    sender = EMAIL_HOST_USER
-    reciever = 'romashov.dmitry.o@gmail.com'
-    gmail_password = EMAIL_HOST_PASSWORD
-
-    em = EmailMessage()
-    em['From'] = sender
-    em['To'] = reciever
-    em['subject'] = "hello, your's code!"
-    em.set_content(f"Your's Code For Pycab: {code}")
-
-    context = ssl.create_default_context()
-
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login(sender, gmail_password)
-        smtp.sendmail(sender, reciever, em.as_string)
+    send_mail(
+        subject="New password for Romashov Pycab",
+        message=f'Code: {code}',
+        from_email=EMAIL_HOST_USER,   # This will have no effect is you have set DEFAULT_FROM_EMAIL in settings.py
+        recipient_list=[adress],    # This is a list
+        fail_silently=False     # Set this to False so that you will be noticed in any exception raised
+    )
