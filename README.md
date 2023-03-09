@@ -10,10 +10,8 @@ Get domain of ngrok's URL. Example:
 
 Open .env file and set domain in variable NGROK in settings.py. Remember that you need to have telegram bot for using app and also set values in other .env variables before next steps. Set your's adress and password instead of EMAIL configuration variables. 
 
-<code>
-EMAIL_HOST_USER = 'yoursmail@gmail.com'
-EMAIL_HOST_PASSWORD = 'yourspassword'
-</code>
+<code>EMAIL_HOST_USER = 'yoursmail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourspassword'</code>
 
 These two variables could be depend on used service.
 
