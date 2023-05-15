@@ -6,7 +6,8 @@ services:
         build: .
         container_name: django
         command: > 
-            sh -c "python manage.py makemigrations table &&
+            sh -c "python manage.py makemigrations users &&
+                   python manage.py makemigrations table &&
                    python manage.py migrate &&
                    python manage.py runserver 0.0.0.0:8000"
         volumes:
@@ -14,12 +15,12 @@ services:
         ports: 
             - "8000:8000"
         depends_on:
-            - pgdb
+            - pycab_db
             - redis
             - smtp-server
-    pgdb:
+    pycab_db:
         image: postgres
-        container_name: pgdb
+        container_name: pycab_db
         environment:
         - POSTGRES_DB=pycab_django_db
         - POSTGRES_USER=postgres

@@ -37,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'users',
     'table',
     'pycab'
 ]
@@ -72,7 +73,7 @@ ROOT_URLCONF = 'pycab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'frontend'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,7 +98,7 @@ DATABASES = {
         'NAME': 'pycab_django_db',
         'USER': 'postgres',
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'pgdb',
+        'HOST': 'pycab_db',
         'PORT': 5432,
     }
 }
@@ -148,7 +149,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'table.MyUser'
+AUTH_USER_MODEL = 'users.MyUser'
 
 # https://realpython.com/asynchronous-tasks-with-django-and-celery/
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
@@ -173,6 +174,9 @@ MESSAGE_TAGS = {
         messages.INFO: 'alert-info',
         messages.ERROR: 'alert-danger',
  }
+
+
+DEFAULT_PAGE_SIZE = 1
 
 '''
 REST_FRAMEWORK = {

@@ -1,5 +1,4 @@
 {% extends "table_pages/table_index.html" %}
-
 {% block body %}
 
 {% if messages %}
@@ -39,16 +38,16 @@
 
             </thead>
             <tbody>
-                {% for record in records %}
+                {% for record in page %}
                 <tr>
                     <form method="POST">{% csrf_token %}
-                        <td> {{ record.word_in_whole }} </td>
-                        <td> {{ record.definition_of_word_in_whole }} </td>
+                        <td> {{ record.word }} </td>
+                        <td> {{ record.definition }} </td>
                         <td>
-                            <a class="btn btn-success" href="{% url 'modify' record.id_of_word_in_whole %}">
+                            <a class="btn btn-success" href="{% url 'modify' record.id %}">
                                 <i class="fas fa-edit">modify</i></a> <!-- id=p.id_in_whole -->
                         <td>
-                            <a class="btn btn-danger" href="{% url 'delete' record.id_of_word_in_whole %}">
+                            <a class="btn btn-danger" href="{% url 'delete' record.id %}">
                                 <i class="far fa-trash-alt">delete</i></a>
                         </td>
                         </td>
@@ -59,8 +58,17 @@
         </table>
     </div>
 </div>
-
-{% for record in records %}
-
-{% endfor %}
+    <div style="display: flex;justify-content: center;align-items: center;">
+        Номер страницы: {{ page.number }}
+        <br>
+        </div>
+        <div style="display: flex;justify-content: center;align-items: center;">
+        {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}">Назад</a>
+    {% endif %}
+    <span class="current-page"></span>
+    {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}">Вперед</a>
+    {% endif %}
+</div>
 {% endblock %}

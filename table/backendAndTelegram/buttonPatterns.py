@@ -1,6 +1,6 @@
 from . import operations, telegram_api_request
 
-from table.models import MyUser, UserInfo
+from users.models import UserInfo
 
 my_email_error = [None]
 my_password_error = [None]

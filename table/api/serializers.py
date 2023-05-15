@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from table.models import WholeVocab
+from table.models import Vocab
 
 
 class WholeVocabSerializer(ModelSerializer):
     class Meta:
-        model = WholeVocab
+        model = Vocab
         fields = '__all__'

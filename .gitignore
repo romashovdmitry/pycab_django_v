@@ -2,6 +2,7 @@
 __pycache__
 *.pyc
 pycab_screencast.mp4
+*initial.py
 # screencast of app
 pycab_screencast.mp4
 

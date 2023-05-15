@@ -2,7 +2,8 @@ from . import operations
 from . import telegram_api_request as tar
 from .buttonPatterns import patterns
 from .hash import hashing
-from table.models import MyUser, UserInfo, WholeVocab, DynamicVocab
+from table.models import Vocab, DynamicVocab
+from users.models import MyUser, UserInfo
 
 def requests_list(message: str, telegram_id: int):
     '''
@@ -92,7 +93,7 @@ def requests_list(message: str, telegram_id: int):
                         return_button()
             elif level == 'adding word':
                 WholeVocab.objects.filter(user_email=email_of_user).update(status_of_word_in_whole='not done')
-                whole_vocab_string = WholeVocab()
+                whole_vocab_string = Vocab()
                 whole_vocab_string.add_new_string(
                     word=message.rstrip()[::-1].rstrip()[::-1],
                     user=user

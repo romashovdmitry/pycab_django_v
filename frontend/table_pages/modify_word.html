@@ -6,15 +6,15 @@
 <br>
 <form action="{% url 'modify' pk=pk %}" method="post">{% csrf_token %}
     <div class="form-group">
-        {{ form.word_in_whole.label_tag }}
-        {{ form.word_in_whole }}
+        {{ form.word.label_tag }}
+        {{ form.word }}
             <small class="form-text text-muted">To write word and definition, that you want to
             add</small>
     </div>
 
     <div class="form-group">
-        {{ form.definition_of_word_in_whole.label_tag }}
-        {{ form.definition_of_word_in_whole }}
+        {{ form.definition.label_tag }}
+        {{ form.definition }}
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 

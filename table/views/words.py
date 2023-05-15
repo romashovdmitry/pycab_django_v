@@ -8,12 +8,14 @@ from django.shortcuts import HttpResponse, redirect, render
 
 # custom django classes
 from table.forms import vocabRecord
-from table.models import WholeVocab
+from table.models import Vocab
+from pycab.helpers import paginate
 
 # etc libs
 import json
 import os
 from dotenv import load_dotenv
+import uuid
 
 
 # Create your views here.
@@ -26,7 +28,7 @@ def table(request):
         # form = Form(request.POST) так надо сделать
         word = request.POST.get('word')
         definition = request.POST.get('definition')
-        whole_vocab_string = WholeVocab()
+        whole_vocab_string = Vocab()
         whole_vocab_string.add_new_string(
             word=word,
             definition=definition,
@@ -36,22 +38,34 @@ def table(request):
         word, definition = None, None  # вот это надо заменить form_cleaned()
         return redirect('table')
     form = vocabRecord()
-    records = WholeVocab.objects.filter(user_email=email_adress).all()
-    return render(request, 'table_pages/table.html', {'records': records, 'form': form})
+    records = Vocab.objects.filter(user_email=email_adress).all()
+    page = paginate(request, records)
+    return render(
+        request,
+        'table_pages/table.html',
+        {
+            'records': records,
+            'form': form,
+            'page': page
+        }
+    )
 
 
 # https://stackoverflow.com/questions/526457/django-form-fails-validation-on-a-unique-field
 def modify_word(request, pk):
     try:
         if request.method == 'POST':
-            vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
+            pk = uuid.UUID(pk)
+            print(pk)
+            vocab_string = Vocab.objects.get(id=pk)
+            print(vocab_string)
             form = vocabRecord(request.POST, instance=vocab_string)
             if form.is_valid():
                 form.save()
-                messages.info(request, f'Word {vocab_string.word_in_whole}'
+                messages.info(request, f'Word {vocab_string.word}'
                               ' is changed!')
                 return redirect('table')
-        vocab_string = WholeVocab.objects.get(id_of_word_in_whole=pk)
+        vocab_string = Vocab.objects.get(id=pk)
         form = vocabRecord(instance=vocab_string)
         return render(request, 'table_pages/modify_word.html', {
             'form': form,
@@ -62,8 +76,8 @@ def modify_word(request, pk):
 
 
 def delete_word(request, pk):
-    table_string = WholeVocab.objects.get(id_of_word_in_whole=int(pk))
-    word = table_string.word_in_whole
+    table_string = Vocab.objects.get(id=uuid.UUID(pk))
+    word = table_string.word
     table_string.delete()
     messages.info(request, f'Word {word} is deleted!')
     return redirect('table')

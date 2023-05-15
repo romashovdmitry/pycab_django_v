@@ -1,13 +1,14 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import MyUser, WholeVocab
+from .models import MyUser
+from table.models import Vocab
 
 # https://www.youtube.com/watch?v=quJzUzCs6Q0
 # https://stackoverflow.com/questions/9324432/how-to-create-password-input-field-in-django
 
 
-class myForm(forms.ModelForm):
+class AuthForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
@@ -24,21 +25,20 @@ class myForm(forms.ModelForm):
 class vocabRecord(forms.ModelForm):
 
     class Meta:
-        model = WholeVocab
+        model = Vocab
         fields = (
-            'word_in_whole', 
-            'definition_of_word_in_whole', 
-            'id_of_word_in_whole'
+            'word',
+            'definition'
         )
 
         widgets = {
-            'word_in_whole': forms.TextInput(attrs={
+            'word': forms.TextInput(attrs={
                 'type': 'text',
                 'class': 'form-control',
                 'name': 'word',
                 'autofocus': True
             }),
-            'definition_of_word_in_whole': forms.TextInput(attrs={
+            'definition': forms.TextInput(attrs={
                 'type': 'text',
                 'class': 'form-control',
                 'name': 'definition'

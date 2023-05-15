@@ -1,16 +1,16 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from table.models import WholeVocab
+from table.models import Vocab
 from .serializers import WholeVocabSerializer
 from sys import path
 from rest_framework import generics, authentication
 
 path.append('../table')
-from table.models import WholeVocab
+from table.models import Vocab
 
 @api_view(['GET'])
 def get_words(request):
-    words = WholeVocab.objects.all()
+    words = Vocab.objects.all()
     words = WholeVocabSerializer(words, many=True)
     return Response(words.data)
 
@@ -22,11 +22,11 @@ def post_new_word(request):
     return Response({'way': None})
 
 class WordsApiView(generics.RetrieveAPIView):
-    queryset = WholeVocab.objects.all()
+    queryset = Vocab.objects.all()
     serializer_class = WholeVocabSerializer
 
 
 class createWord(generics.CreateAPIView):
-    queryset = WholeVocab.objects.all()
+    queryset = Vocab.objects.all()
     serializer_class = WholeVocabSerializer
     authentication_classes = [authentication.TokenAuthentication]

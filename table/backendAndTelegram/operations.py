@@ -4,8 +4,8 @@ from typing import Tuple
 
 from . import telegram_api_request as tar
 
-from table.models import WholeVocab, DynamicVocab
-from table.models import MyUser, UserInfo
+from table.models import Vocab, DynamicVocab
+from users.models import MyUser, UserInfo
 
 # Row in tables can have 3 statuses:
 # not_done - nothing is happening with row in table
@@ -26,7 +26,7 @@ def show_word(user_email):
         random_ = random.randint(1, highest)
         random_ -= 1
         doing = random_list[random_]
-        _ = WholeVocab.objects.get(id_of_word_in_whole=doing)
+        _ = Vocab.objects.get(id_of_word_in_whole=doing)
         dynamic_table_string = DynamicVocab.objects.get(
             id_of_word_in_dynamic=_)
         dynamic_table_string.status_of_word_in_dynamic = 'doing'
@@ -40,7 +40,7 @@ def show_word(user_email):
 def vocab_work(user_email) -> str:
     '''Foo is using on level "default". Foo fills table dynamic_vocab'''
     DynamicVocab.objects.all().delete()
-    whole_vocab_records = WholeVocab.objects.filter(
+    whole_vocab_records = Vocab.objects.filter(
         user_email=user_email).all()
     for record in whole_vocab_records:
         _ = DynamicVocab()
@@ -70,7 +70,7 @@ def show_all_words_for_deleting(user_email, chat_id):
 
     '''
     DynamicVocab.objects.all().delete()
-    all_words = WholeVocab.objects.filter(user_email=user_email).all()
+    all_words = Vocab.objects.filter(user_email=user_email).all()
     if len(all_words) < 1:
         tar.ButtonCreate(message_text="Словарь пустой.\n"
                                       "Сначала следует "
@@ -119,7 +119,7 @@ def show_all_words_for_modif(user_email: int, chat_id: int):
     DynamicVocab.objects.all().delete()
 #    SQLTransactions(user_email=user_email).deleteAllFromDynamicByEmail()
 
-    whole_vocab_records = WholeVocab.objects.filter(
+    whole_vocab_records = Vocab.objects.filter(
         user_email=user_email).all()
     for record in whole_vocab_records:
         _ = DynamicVocab()
@@ -178,11 +178,11 @@ def delete_word(numbers: str, user_email: str) -> str:
         list_for_deleting.sort()
         if list_for_deleting[0] > list_for_deleting[-1]:
             list_for_deleting.reverse()
-        all_words = WholeVocab.objects.filter(user_email=user_email).all()
+        all_words = Vocab.objects.filter(user_email=user_email).all()
         numbered_list_of_words = {
             b: all_words[b].id_of_word_in_whole for b in range(len(all_words))}
         for b in list_for_deleting:
-            table_string = WholeVocab.objects.get(
+            table_string = Vocab.objects.get(
                 id_of_word_in_whole=numbered_list_of_words[b-1],
                 user_email=user_email
             )
@@ -200,7 +200,7 @@ def modificate_word(message: str, user_email: str) -> str:
         message = re.sub('[\s]', '', message)       # remove spaces
         message = int(re.sub('[.,]', '', message))  # remove dots and commas
         try:
-            all_whole_vocab_words = WholeVocab.objects.filter(
+            all_whole_vocab_words = Vocab.objects.filter(
                 user_email=user_email).all()
             numbered_list_of_words = {
                 b: all_whole_vocab_words[b].word_in_whole for b in range(len(all_whole_vocab_words))}
@@ -232,7 +232,7 @@ def modificate_word(message: str, user_email: str) -> str:
             dict_ = {i: pkeys[i] for i in range(highest)}
             pkey_of_word = dict_[number_of_word-1]
 
-            whole_vocab_string = WholeVocab.objects.get(
+            whole_vocab_string = Vocab.objects.get(
                 id_of_word_in_whole=pkey_of_word)
             whole_vocab_string.word_in_whole = word
             whole_vocab_string.save()
@@ -265,7 +265,7 @@ def modificate_definition(definition: str, user_email: str) -> str:
             status_of_word_in_dynamic='modif'
         )
         number_in_whole = dynamic_table_string.id_of_word_in_dynamic.id_of_word_in_whole
-        whole_table_string = WholeVocab.objects.get(
+        whole_table_string = Vocab.objects.get(
             id_of_word_in_whole=number_in_whole,
             user_email=user_email
         )
