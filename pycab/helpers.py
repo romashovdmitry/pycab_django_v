@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 
 from pycab.settings import DEFAULT_PAGE_SIZE
 
+
 def custom_404_handler(request, exception=None):
     # Ваш код обработки 404 ошибки здесь
     # Например, вы можете записывать несуществующие URL-адреса в базу данных, отправлять уведомления администратору и т.д.
@@ -15,8 +16,10 @@ def redirect_authenticated_user(func):
 
         if request.user.is_authenticated:
             return redirect('table')
+        return func(request)
 
     return wrapper
+
 
 def paginate(request, items, page_size=DEFAULT_PAGE_SIZE):
     paginator = Paginator(items, page_size)

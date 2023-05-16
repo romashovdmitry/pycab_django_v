@@ -3,6 +3,8 @@ __pycache__
 *.pyc
 pycab_screencast.mp4
 *initial.py
+*/migrations
+*log
 # screencast of app
 pycab_screencast.mp4
 

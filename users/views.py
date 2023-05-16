@@ -15,12 +15,15 @@ from users.models import MyUser, UserInfo
 # custom classes
 from table.backendAndTelegram.hash import hashing
 from pycab.helpers import redirect_authenticated_user
+import logging
 
 # redis
 from table.tasks import py_send_mail
 
 # etc libs
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 class Registration(FormView, View):
 

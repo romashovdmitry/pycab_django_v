@@ -169,14 +169,59 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-#https://ordinarycoders.com/blog/article/django-messages-framework
+# https://ordinarycoders.com/blog/article/django-messages-framework
 MESSAGE_TAGS = {
-        messages.INFO: 'alert-info',
-        messages.ERROR: 'alert-danger',
- }
+    messages.INFO: 'alert-info',
+    messages.ERROR: 'alert-danger',
+}
 
 
 DEFAULT_PAGE_SIZE = 1
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "errors": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/erors.log",
+            "maxBytes": 30000,
+            "backupCount": 5,
+            "formatter": "verbose",
+            "level": 'ERROR'
+        },
+        "warnings": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/warnings.log",
+            "maxBytes": 30000,
+            "backupCount": 5,
+            "formatter": "verbose",
+            "level": "WARNING"
+        },
+        "info": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/info.log",
+            "maxBytes": 10000,
+            "backupCount": 5,
+            "formatter": "verbose",
+            "level": "INFO"
+        }
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["errors", 'warnings', 'info'],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{name} {levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+}
+
 
 '''
 REST_FRAMEWORK = {
