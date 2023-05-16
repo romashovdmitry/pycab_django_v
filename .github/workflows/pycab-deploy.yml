@@ -1,0 +1,14 @@
+name: Pycab Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  my_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: print hallo
+        run: echo 'hue pezda'
