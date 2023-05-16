@@ -18,4 +18,4 @@ jobs:
             run: export > .env
             env:
                 TEST_SECRET: ${{ secrets.DB_PASSWORD }}
-          - run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} .env ${{ secrets.SSH_ROLE }}@;{{ secrets.SSH_IP_ADRESS }}:/.env
+          - run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} .env ${{ secrets.SSH_ROLE }}@{{ secrets.SSH_IP_ADRESS }}:/var/.env
