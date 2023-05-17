@@ -3,7 +3,7 @@ name: Send File to Remote Server GPT version
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   send-file:
