@@ -13,10 +13,10 @@ jobs:
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
           
       - name: Create file
         run: echo "hello world" > file.txt
         
       - name: Copy file to remote server
-        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} file.txt root@${{ secrets.SSH_IP_ADRESS }}:/etc/file.txt
+        run: scp -i ${{ env.SSH_PRIVATE_KEY }} file.txt root@${{ secrets.SSH_IP_ADRESS }}:/etc/file.txt
