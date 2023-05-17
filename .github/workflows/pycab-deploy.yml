@@ -7,15 +7,15 @@ on:
 
 jobs:
   make_env:
-    name: make_env
+    name: Create and update .env file on remote server
     runs-on: ubuntu-latest
     steps:
-          - name: Checkout
-            uses: actions/checkout@v2
-            with:
-              ref: 'master'
-          - name: Make envfile
-            run: export > .env
-            env:
-                TEST_SECRET: ${{ secrets.DB_PASSWORD }}
-          - run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} .env ${{ secrets.SSH_ROLE }}@{{ secrets.SSH_IP_ADRESS }}:/var/.env
+      - name: SSH into remote server and create/update .env file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP_ADRESS }}
+          username: ${{ secrets.REMOTE_ROLE }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            echo "KEY=value" > /var/.env
