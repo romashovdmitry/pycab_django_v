@@ -11,6 +11,6 @@ jobs:
       with:
         host: ${{ secrets.SSH_IP_ADRESS }}
         username: ${{ secrets.REMOTE_ROLE }}
-        password: ${{ secrets.SSH_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: echo 'hello world'
+        script: whoami
