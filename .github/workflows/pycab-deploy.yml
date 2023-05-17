@@ -1,16 +1,22 @@
-name: remote ssh command
-on: [push]
-jobs:
+name: Send File to Remote Server GPT version
 
-  build:
-    name: Build
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send-file:
     runs-on: ubuntu-latest
+    
     steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.SSH_IP_ADRESS }}
-        username: ${{ secrets.REMOTE_ROLE }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: whoami
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Create file
+        run: echo "hello world" > file.txt
+        
+      - name: Copy file to remote server
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} file.txt root@${{ secrets.SSH_IP_ADRESS }}:/etc/file.txt
