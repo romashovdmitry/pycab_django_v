@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: huepezda
+        run: echo ${{ secrets.SSH_IP_ADRESS }}
+
+      - name: pezdahue
+        run: echo ${{ env.SSH_PRIVATE_KEY }}
+
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.5.0
         with:
