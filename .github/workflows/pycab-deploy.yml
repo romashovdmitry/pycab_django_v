@@ -1,21 +1,16 @@
-name: Pycab Deploy
-
-on:
-  push:
-    branches:
-      - master
-
+name: remote ssh command
+on: [push]
 jobs:
-  make_env:
-    name: Create and update .env file on remote server
+
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into remote server and create/update .env file
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_IP_ADRESS }}
-          username: ${{ secrets.REMOTE_ROLE }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |
-            echo "KEY=value" > /var/.env
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_IP_ADRESS }}
+        username: ${{ secrets.REMOTE_ROLE }}
+        password: ${{ secrets.SSH_PASSPHRASE }}
+        port: ${{ secrets.SSH_PORT }}
+        script: whoami
