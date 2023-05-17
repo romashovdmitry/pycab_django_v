@@ -16,4 +16,4 @@ jobs:
     - name: Create and Copy File
       run: |
         echo "Hello world" > hello.txt
-        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} hello.txt ${{ secrets.EMAIL_HOST_USER }}@${{ secrets.SSH_IP_ADRESS }}:80:/root
+        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} hello.txt ${{ secrets.EMAIL_HOST_USER }}@${{ secrets.SSH_IP_ADRESS }}:80:/
