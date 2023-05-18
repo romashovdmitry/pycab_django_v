@@ -1,4 +1,4 @@
-name: Deploy to Remote Server
+name: Deploy
 
 on:
   push:
@@ -8,30 +8,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install SSH client
-      run: |
-        sudo apt-get update
-        sudo apt-get install openssh-client -y
-
-    - name: Add SSH private key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-
-    - name: Connect to remote server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_IP_ADRESS }}
-        username: ${{ secrets.SSH_ROLE }}
-        key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.LAST_ONE_SSH_PASSPHRASE }}
-        
-#        script: |
-          # Введите здесь команды, которые вы хотите выполнить на удаленной машине после подключения
-          # Пример: ls -al, cd /path/to/your/app, и т.д.
+      - uses: actions/checkout@v2
+      # Setup key
+      - run: set -eu
+      - run: mkdir "$HOME/.ssh"
+      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
+      - run: chmod 600 "$HOME/.ssh/key"
