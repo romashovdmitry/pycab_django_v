@@ -16,4 +16,4 @@ jobs:
       - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
-      - run: cd static && rsync -e "ssh -p 20022 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . root@77.73.132.55:/root/dmitry
+      - run: cd static && rsync -e "ssh -p 20022 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . root@77.73.132.55
