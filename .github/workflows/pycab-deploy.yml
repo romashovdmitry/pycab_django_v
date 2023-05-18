@@ -7,10 +7,4 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    runs-on: self-hosted
