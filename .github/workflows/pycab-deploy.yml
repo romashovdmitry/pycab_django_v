@@ -18,5 +18,5 @@ jobs:
     - name: Create and Copy File
       run: |
         echo "Hello world" > hello.txt
-        echo "${{ secrets.SSH_PUBLIC_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
         scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} hello.txt ${{ secrets.REMOTE_ROLE }}@${{ secrets.SSH_IP_ADRESS }}:80:/
