@@ -13,7 +13,4 @@ jobs:
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: SSH to remote server
-        run: |
-          ssh user@your-server-ip "echo 'Hello, world!'"
+          ssh-private-key: ${{ secrets.SSH_PUUBLIC_KEY }}
