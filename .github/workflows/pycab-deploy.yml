@@ -30,6 +30,8 @@ jobs:
         host: ${{ secrets.SSH_IP_ADRESS }}
         username: ${{ secrets.SSH_ROLE }}
         key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.LAST_ONE_SSH_PASSPHRASE }}
+        
 #        script: |
           # Введите здесь команды, которые вы хотите выполнить на удаленной машине после подключения
           # Пример: ls -al, cd /path/to/your/app, и т.д.
