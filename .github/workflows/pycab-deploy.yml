@@ -6,5 +6,17 @@ on:
       - master
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SSH_KEY_PATH: /tmp/ssh_key
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Create and Copy File
+      run: |
+        echo "Hello world" > hello.txt
+        echo "${{ secrets.SSH_PUBLIC_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
+        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} hello.txt ${{ secrets.REMOTE_ROLE }}@${{ secrets.SSH_IP_ADRESS }}:80:/
