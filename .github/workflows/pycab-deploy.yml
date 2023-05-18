@@ -15,3 +15,5 @@ jobs:
       - run: mkdir "$HOME/.ssh"
       - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
+      # Deploy
+      - run: rsync -e "ssh -p 20022 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . root@1507839-cy37741.tw1.ru:/home/hello
