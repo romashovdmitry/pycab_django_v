@@ -17,3 +17,15 @@ jobs:
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
       - run: cd static && rsync -e "ssh -p 20022 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . root@1507839-cy37741.tw1.ru
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: 1507839-cy37741.tw1.ru
+        username: root
+        password: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+        port: 22
+        script: whoami
