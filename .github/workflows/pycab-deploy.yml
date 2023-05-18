@@ -1,22 +1,35 @@
-name: Send File to Remote Server GPT version
+name: Deploy to Remote Server
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      SSH_KEY_PATH: /tmp/ssh_key
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Create and Copy File
+    - name: Install SSH client
       run: |
-        echo "Hello world" > hello.txt
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
-        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} hello.txt ${{ secrets.REMOTE_ROLE }}@${{ secrets.SSH_IP_ADRESS }}:80:/
+        sudo apt-get update
+        sudo apt-get install openssh-client -y
+
+    - name: Add SSH private key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Connect to remote server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_IP_ADRESS }}
+        username: ${{ secrets.SSH_ROLE }}
+        key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+#        script: |
+          # Введите здесь команды, которые вы хотите выполнить на удаленной машине после подключения
+          # Пример: ls -al, cd /path/to/your/app, и т.д.
