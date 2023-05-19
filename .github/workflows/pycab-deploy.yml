@@ -19,7 +19,7 @@ jobs:
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-                  scp -r "."  root@77.73.132.55:/root/dmitry/git_test_delete
+                  scp -r "."  root@77.73.132.55:/
 
 #script: |
 #            ls -al
