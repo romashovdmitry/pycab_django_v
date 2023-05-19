@@ -23,13 +23,13 @@ jobs:
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |
-                  ls -al
-                  whoami
-                  pwd
-                  cd ..
-                  pwd
-                  rsync -avz --progress $GITHUB_WORKSPACE/ ~/
+          source: "static/my.css"
+          target: '/home'
+
+# выводило список файлов. не отправляло файлы. 
+#          script: |
+#                  ls -al
+#                  whoami
 # rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/
 
 
