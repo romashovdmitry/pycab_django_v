@@ -7,26 +7,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # Setup key
-      - run: set -eu
-      - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > deploy_key
-#      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
-#      - run: chmod 600 "$HOME/.ssh/key"
-      # Deploy
-      - run: cd static && rsync -e "ssh -p 22 -i deploy_key -o StrictHostKeyChecking=no" --archive --compress . root@77.73.132.55:/root
-#  build:
-#    name: executing remote ssh commands using ssh key
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: pohuy
-#        uses: appleboy/ssh-action@v0.1.10
-#        with:
-#          host: 1507839-cy37741.tw1.ru
-#          username: root
-#          key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
-#          port: 22
-#          script: whoami
+      name: Copy repo files to remote
+      runs-on: ubuntu-latest
+      steps:
+      - name: Copy repo files to remote
+        uses: appleboy/ssh-action@master
+        with:
+          host: 77.73.132.55
+          username: root
+          key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            scp -r "."  root@77.73.132.55:/root/dmitry/git_test_delete
