@@ -24,7 +24,9 @@ jobs:
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
+                  ls -al
+                  whoami
+rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
 
 
 
