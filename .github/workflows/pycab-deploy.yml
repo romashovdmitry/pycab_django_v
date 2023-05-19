@@ -13,10 +13,11 @@ jobs:
       # Setup key
       - run: set -eu
       - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
+      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > deploy_key
+#      - run: echo "${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
-      - run: cd static && rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . root@77.73.132.55:/root
+      - run: cd static && rsync -e "ssh -p 22 -i deploy_key -o StrictHostKeyChecking=no" --archive --compress . root@77.73.132.55:/root
 #  build:
 #    name: executing remote ssh commands using ssh key
 #    runs-on: ubuntu-latest
