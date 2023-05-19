@@ -19,7 +19,7 @@ jobs:
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-                  scp -r "."  root@77.73.132.55:/
+                  scp -r "."  root@77.73.132.55:/home
 
 #script: |
 #            ls -al
