@@ -29,7 +29,8 @@ jobs:
                   pwd
                   cd ..
                   pwd
-                  rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/
+                  rsync -avz --progress $GITHUB_WORKSPACE/ ~/
+# rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/
 
 
 
