@@ -26,7 +26,7 @@ jobs:
           script: |
                   ls -al
                   whoami
-rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
+# rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
 
 
 
