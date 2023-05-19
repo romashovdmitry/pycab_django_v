@@ -17,5 +17,6 @@ jobs:
           username: root
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           port: 22
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             scp -r "."  root@77.73.132.55:/root/dmitry/git_test_delete
