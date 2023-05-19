@@ -7,9 +7,14 @@ on:
 
 jobs:
   deploy:
-      name: Copy repo files to remote
-      runs-on: ubuntu-latest
-      steps:
+    name: Copy repo files to remote
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 'master'
+          
       - name: Copy repo files to remote
         uses: appleboy/ssh-action@master
         with:
@@ -19,7 +24,8 @@ jobs:
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-                  rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
+            rsync -avz --progress $GITHUB_WORKSPACE/ root@77.73.132.55:/home
+
 
 
 #script: |
