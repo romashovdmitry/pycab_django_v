@@ -23,9 +23,9 @@ services:
         image: postgres
         container_name: pycab_db
         environment:
-        - POSTGRES_DB=pycab_django_db
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=polkabulok56
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
         expose:
           - '5432'
         ports:

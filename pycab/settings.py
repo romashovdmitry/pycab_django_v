@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-NGROK = os.getenv("NGROK")
+HOST = os.getenv("HOST")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -165,7 +165,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_TRUSTED_ORIGINS = [
-    f'{NGROK}'
+    f'{HOST}'
 ]
 
 
@@ -184,7 +184,7 @@ LOGGING = {
     "handlers": {
         "errors": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/erors.log",
+            "filename": "logs/errors.log",
             "maxBytes": 30000,
             "backupCount": 5,
             "formatter": "verbose",
@@ -221,13 +221,3 @@ LOGGING = {
         },
     },
 }
-
-
-'''
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
-    ]
-}
-'''

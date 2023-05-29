@@ -39,23 +39,16 @@ class Registration(FormView, View):
 
         form = self.form_class(request.POST)
 
-        print(2)
-
         if form.is_valid():
 
-            print(3)
-
             user = form.save(commit=False)
-            print(4)
             user.email = user.email.lower()
             user.password = hashing(user.password)
             user.save()
             login(request, user)
-            print(5)
             new_user_info = UserInfo()
             new_user_info.user_email = user
             new_user_info.save()
-            print(6)
             messages.info(request, f'Account for {user.email} is added!')
             return self.form_valid(self.form_class)
 

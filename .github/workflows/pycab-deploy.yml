@@ -26,18 +26,17 @@ jobs:
             echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
             echo "PASSWORD_FINISH=${PASSWORD_FINISH}" >> .env
       - name: Copy repo files to remote
+#        uses: appleboy/ssh-action@master
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${ secrets.HOST_IP_ADRESS }
+          host: 77.73.132.55
           username: root
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: ".env"
+          source: "test.txt"
           target: '/home'
-
-
-#        uses: appleboy/ssh-action@master
+          overwrite: true
 
 # выводило список файлов. не отправляло файлы. 
 #          script: |
@@ -50,3 +49,26 @@ jobs:
 #script: |
 #            ls -al
 
+
+
+#      - name: Create .env file
+#        run: |
+#            echo "SECRET_KEY=${SECRET_KEY}" >> .env
+#            echo "EMAIL_HOST_USER=${EMAIL_HOST_USER}" >> .env
+#            echo "EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}" >> .env
+#            echo "HOST=${HOST}" >> .env
+#            echo "TELEGRAM_TOKEN=${TELEGRAM_TOKEN}" >> .env
+#            echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
+#            echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+#            echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+#            echo "PASSWORD_FINISH=${PASSWORD_FINISH}" >> .env
+#      - name: Copy repo files to remote
+#        uses: appleboy/scp-action@v0.1.4
+#        with:
+#          host: ${ secrets.HOST_IP_ADRESS }
+#          username: root
+#          key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+#          port: 22
+#          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+#          source: ".env"
+#          target: '/home'

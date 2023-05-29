@@ -56,9 +56,7 @@ def modify_word(request, pk):
     try:
         if request.method == 'POST':
             pk = uuid.UUID(pk)
-            print(pk)
             vocab_string = Vocab.objects.get(id=pk)
-            print(vocab_string)
             form = vocabRecord(request.POST, instance=vocab_string)
             if form.is_valid():
                 form.save()
