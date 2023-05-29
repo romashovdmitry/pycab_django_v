@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Docker stop
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@master
         with:
           host: 77.73.132.55
           username: root
@@ -36,7 +36,6 @@ jobs:
             echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
             echo "PASSWORD_FINISH=${PASSWORD_FINISH}" >> .env
       - name: Copy repo files to remote
-#        uses: appleboy/ssh-action@master
         uses: appleboy/scp-action@v0.1.4
         with:
           host: 77.73.132.55
