@@ -19,7 +19,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: 22
           script: |
-            ls -al
+            docker stop ${{ secrets.DOCKER_CONTAINER_ID }}
       - name: Checkout
         uses: actions/checkout@v2
         with:
