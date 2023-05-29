@@ -19,19 +19,15 @@ jobs:
             echo "SECRET_KEY=HUEPEZDA" >> .env
       - name: Copy repo files to remote
 #        uses: appleboy/ssh-action@master
-#        uses: appleboy/ssh-action@master
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: 77.73.132.55
           host: 77.73.132.55
           username: root
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "test.txt"
-          source: "test.txt"
           target: '/home'
-          overwrite: true
           overwrite: true
 
 # выводило список файлов. не отправляло файлы. 
