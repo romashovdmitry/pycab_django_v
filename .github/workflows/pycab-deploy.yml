@@ -26,7 +26,7 @@ jobs:
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           port: 22
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "text.txt"
+          source: "test.txt"
           target: '/home'
           overwrite: true
 
