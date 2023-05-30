@@ -43,8 +43,8 @@ jobs:
           key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: 22
-          source: "test.txt"
-          target: '/home'
+          source: .
+          target: '/root/dmitry/PYCAB_TIMEWEB'
           overwrite: true
 
 # выводило список файлов. не отправляло файлы. 
