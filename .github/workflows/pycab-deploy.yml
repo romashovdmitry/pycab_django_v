@@ -34,7 +34,7 @@ jobs:
             echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
             echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
             echo "PASSWORD_FINISH=${{ secrets.PASSWORD_FINISH }}" >> .env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}"
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
       - name: Copy repo files to remote
         uses: appleboy/scp-action@v0.1.4
         with:
