@@ -27,7 +27,7 @@ jobs:
       - name: Create .env file
         run: |
             echo "SECRET_KEY=HUEPEZDA" >> .env
-            echo "EMAIL_HOST_USER=${EMAIL_HOST_USER}" >> .env
+            echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER}}" >> .env
             echo "EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}" >> .env
             echo "HOST=${HOST}" >> .env
             echo "TELEGRAM_TOKEN=${TELEGRAM_TOKEN}" >> .env
