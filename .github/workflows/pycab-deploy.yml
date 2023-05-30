@@ -58,6 +58,17 @@ jobs:
           source: .env
           target: '/root/dmitry/PYCAB_TIMEWEB'
           overwrite: true
+      - name: Docker run
+        uses: appleboy/ssh-action@master
+        with:
+          host: 77.73.132.55
+          username: root
+          key: ${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: 22
+          script: |
+            cd /root/dmitry/PYCAB_TIMEWEB
+            docker compose up
 
 # выводило список файлов. не отправляло файлы. 
 #          script: |
