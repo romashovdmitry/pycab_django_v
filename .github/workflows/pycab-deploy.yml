@@ -68,8 +68,7 @@ jobs:
           port: 22
           script: |
             cd /root/dmitry/PYCAB_TIMEWEB
-            chmod +x docker-compose.sh
-            ./docker-compose.sh
+            docker compose up -d
 
 # выводило список файлов. не отправляло файлы. 
 #          script: |
