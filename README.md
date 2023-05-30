@@ -1,25 +1,29 @@
 # Value of project
 
-Project is created for improving English vocabulary by saving new words with definitions and training by random dispatching in Telegram Bot. Core of project consist of Django routes, PostgreSQL and Telegram Bot. 
+The project aims to enhance English vocabulary by saving new words with definitions and facilitating training through random dispatching in a Telegram Bot. The core of the project revolves around Django routes, PostgreSQL, and the Telegram Bot.
 
-It's better for more understanding to watch video in link bellow:
+To gain a better understanding of the project, you can watch a screencast of the working project by following the link below:
 
 [ScreenCast of working project](https://www.youtube.com/watch?v=Kjbo7WEAOno)
 
-## Stack of technologies: 
+## Technology Stack: 
+
+The project utilizes the following technologies:
+
 - SQL commands, PostgreSQL, Django ORM
 - Telegram API
 - JSON, requests (python HTTP library)
-- regular expressions
+- Regular expressions
 - Django, Django-packages, Jinja syntax
-- formatting strings
-- Redis as message-broker for Celery
-- network knowledge, like WebHook, SSH for testing  
+- Formatting strings
+- Redis as a message-broker for Celery
+- Network knowledge, such as WebHooks and SSH for testing  
 - HTML, Bootstrap, CSS
 - Hashing
-- OOP
+- Object-Oriented Programming (OOP)
 - Docker
-
+- Deploy on remote machine, Nginx to proxy requests, webhooks
+- CI/CD with GitHub Actions
 
 # How To Run on local machine
 
