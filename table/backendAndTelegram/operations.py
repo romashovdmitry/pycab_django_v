@@ -26,9 +26,9 @@ def show_word(user_email):
         random_ = random.randint(1, highest)
         random_ -= 1
         doing = random_list[random_]
-        _ = Vocab.objects.get(id_of_word_in_whole=doing)
+        _ = Vocab.objects.get(id=doing)
         dynamic_table_string = DynamicVocab.objects.get(
-            id_of_word_in_dynamic=_)
+            id_dynamic=_)
         dynamic_table_string.status_of_word_dynamic = 'doing'
         dynamic_table_string.save()
         del (random_)
@@ -180,10 +180,10 @@ def delete_word(numbers: str, user_email: str) -> str:
             list_for_deleting.reverse()
         all_words = Vocab.objects.filter(user_email=user_email).all()
         numbered_list_of_words = {
-            b: all_words[b].id_of_word_in_whole for b in range(len(all_words))}
+            b: all_words[b].id for b in range(len(all_words))}
         for b in list_for_deleting:
             table_string = Vocab.objects.get(
-                id_of_word_in_whole=numbered_list_of_words[b-1],
+                id=numbered_list_of_words[b-1],
                 user_email=user_email
             )
             table_string.delete()
