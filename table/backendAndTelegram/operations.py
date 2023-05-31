@@ -88,7 +88,7 @@ def show_all_words_for_deleting(user_email, chat_id):
         while len(all_words) != 0:
             s = ''
             for b in all_words[0:25]:
-                s = s + str(i) + '. ' + str(b.word_in_whole) + '\n'
+                s = s + str(i) + '. ' + str(b.word) + '\n'
                 i += 1
             all_words = all_words[25:]
             tar.ButtonCreate(message_text=s,
@@ -203,7 +203,7 @@ def modificate_word(message: str, user_email: str) -> str:
             all_whole_vocab_words = Vocab.objects.filter(
                 user_email=user_email).all()
             numbered_list_of_words = {
-                b: all_whole_vocab_words[b].word_in_whole for b in range(len(all_whole_vocab_words))}
+                b: all_whole_vocab_words[b].word for b in range(len(all_whole_vocab_words))}
             word = numbered_list_of_words[message-1]
             dynamic_table_string = DynamicVocab.objects.get(
                 user_email=user_email, word_in_dynamic=word)
@@ -234,7 +234,7 @@ def modificate_word(message: str, user_email: str) -> str:
 
             whole_vocab_string = Vocab.objects.get(
                 id_of_word_in_whole=pkey_of_word)
-            whole_vocab_string.word_in_whole = word
+            whole_vocab_string.word = word
             whole_vocab_string.save()
 
             dynamic_table_string = DynamicVocab.objects.get(
@@ -269,7 +269,7 @@ def modificate_definition(definition: str, user_email: str) -> str:
             id_of_word_in_whole=number_in_whole,
             user_email=user_email
         )
-        whole_table_string.definition_of_word_in_whole = definition
+        whole_table_string.definition = definition
         whole_table_string.save()
         return ('Done!')
     except Exception as ex:
