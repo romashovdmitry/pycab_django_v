@@ -113,7 +113,7 @@ def requests_list(message: str, telegram_id: int):
                 whole_vocab_string = Vocab.objects.filter(
                     user_email=email_of_user).filter(
                     status_of_word_in_whole='doing').first()
-                whole_vocab_string.definition_of_word_in_whole = message.rstrip()[::-1].rstrip()[::-1]
+                whole_vocab_string.definition = message.rstrip()[::-1].rstrip()[::-1]
                 whole_vocab_string.save()
                 user_info.user_level = 'default'
                 user_info.save()
