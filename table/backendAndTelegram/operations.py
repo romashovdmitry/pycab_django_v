@@ -55,7 +55,7 @@ def checking_word(message_word: str, user_email: str) -> Tuple[bool, str]:
     '''Foo checks accuracy of written (to bot) word'''
     message_word = message_word.rstrip()[::-1].rstrip()[::-1].lower()
     dynamic_table_string = DynamicVocab.objects.get(
-        user_email=user_email, status_of_word_in_dynamic='doing')
+        user_email=user_email, status_of_word_dynamic='doing')
     correct_word = dynamic_table_string.word_dynamic
     dynamic_table_string.delete()
     if message_word == correct_word.lower():
