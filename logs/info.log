@@ -1,0 +1,7 @@
+django.server INFO 2023-05-19 20:09:13,011 basehttp "GET /login HTTP/1.1" 200 1882
+django.server INFO 2023-05-19 20:09:13,094 basehttp "GET /favicon.ico/ HTTP/1.1" 200 1771
+django.server INFO 2023-05-19 20:10:10,367 basehttp "POST /login HTTP/1.1" 302 0
+django.server INFO 2023-05-19 20:10:10,526 basehttp "GET /table HTTP/1.1" 200 2356
+django.server INFO 2023-05-19 20:10:10,658 basehttp "GET /favicon.ico/ HTTP/1.1" 302 0
+django.server INFO 2023-05-19 20:10:10,701 basehttp "GET /table HTTP/1.1" 200 2356
+django.utils.autoreload INFO 2023-05-31 07:03:26,379 autoreload Watching for file changes with StatReloader

@@ -4,7 +4,6 @@ __pycache__
 pycab_screencast.mp4
 *initial.py
 */migrations
-*.log*
 delete.py
 # screencast of app
 pycab_screencast.mp4
