@@ -2,7 +2,7 @@ from . import operations
 from . import telegram_api_request as tar
 from .buttonPatterns import patterns
 from .hash import hashing
-from table.models import Vocab, DynamicVocab
+from table.models import Vocab
 from users.models import MyUser, UserInfo
 
 def requests_list(message: str, telegram_id: int):
@@ -92,7 +92,7 @@ def requests_list(message: str, telegram_id: int):
                                                   texts_of_button=['']).\
                         return_button()
             elif level == 'adding word':
-                WholeVocab.objects.filter(user_email=email_of_user).update(status_of_word_in_whole='not done')
+                Vocab.objects.filter(user_email=email_of_user).update(status_of_word_in_whole='not done')
                 whole_vocab_string = Vocab()
                 whole_vocab_string.add_new_string(
                     word=message.rstrip()[::-1].rstrip()[::-1],
@@ -110,7 +110,7 @@ def requests_list(message: str, telegram_id: int):
                                                   'в словарь']).\
                     return_button()
             elif level == 'adding_definition':
-                whole_vocab_string = WholeVocab.objects.filter(
+                whole_vocab_string = Vocab.objects.filter(
                     user_email=email_of_user).filter(
                     status_of_word_in_whole='doing').first()
                 whole_vocab_string.definition_of_word_in_whole = message.rstrip()[::-1].rstrip()[::-1]
@@ -149,7 +149,7 @@ def requests_list(message: str, telegram_id: int):
                                                       'Проверять слова!']).\
                         return_button()
             elif level == 'deleting':
-                wholevocab = WholeVocab.objects.filter(user_email=email_of_user).all()
+                wholevocab = Vocab.objects.filter(user_email=email_of_user).all()
                 if len(wholevocab) > 0:
                     delete_message = operations.delete_word(
                         numbers=message,
