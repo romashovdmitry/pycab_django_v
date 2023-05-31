@@ -70,6 +70,10 @@ The project consists of two main parts:
 
 The Telegram bot functionality is implemented in the telegram.py file. It includes the requests_list function, which processes incoming messages in the Telegram bot. By using a "flag" (level) code, the requests_list function selects functions from the operations.py module and utilizes them to construct responses for the user. For the design of the web interface, we have utilized simple HTML and Bootstrap styles. You can learn more about Bootstrap styles https://getbootstrap.comю 
 
+2. Django Web Interface.
+
+The Django web interface provides a user-friendly interface to interact with the application. The URLs and views for the web interface are organized in their respective folders. For the design of the web interface, we have utilized simple HTML and Bootstrap styles. You can learn more about Bootstrap styles
+
 ## Next steps in project: 
 
 1. Implement Simple Math Models for Improved Word Selection. Currently, the output of words in the project is entirely random. To enhance the user experience, consider adding simple math models that prioritize certain words over others. By introducing mathematical algorithms or techniques, you can make the word selection process more intelligent and ensure that difficult words are not neglected. This will help users remember a broader range of vocabulary.
