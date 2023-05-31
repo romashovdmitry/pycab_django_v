@@ -176,7 +176,7 @@ MESSAGE_TAGS = {
 }
 
 
-DEFAULT_PAGE_SIZE = 1
+DEFAULT_PAGE_SIZE = 20
 
 LOGGING = {
     "version": 1,
