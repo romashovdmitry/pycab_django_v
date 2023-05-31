@@ -18,7 +18,7 @@ def show_word(user_email):
     list_of_records = DynamicVocab.objects.filter(user_email=user_email).all()
     if len(list_of_records) > 0:
         highest = len(list_of_records)
-        pkeys = [b.id_of_word_in_dynamic.id_of_word_in_whole for b in list_of_records]
+        pkeys = [b.id_dynamic.id for b in list_of_records]
         random_list = {i: pkeys[i] for i in range(highest)}
         # PLACE
         # FOR
@@ -29,10 +29,10 @@ def show_word(user_email):
         _ = Vocab.objects.get(id_of_word_in_whole=doing)
         dynamic_table_string = DynamicVocab.objects.get(
             id_of_word_in_dynamic=_)
-        dynamic_table_string.status_of_word_in_dynamic = 'doing'
+        dynamic_table_string.status_of_word_dynamic = 'doing'
         dynamic_table_string.save()
         del (random_)
-        return dynamic_table_string.definition_in_dynamic
+        return dynamic_table_string.definition_dynamic
     return ('Словарь закончился!\n '
             '\nДобавь новые слова или пройдись еще раз по словарю. ')
 
@@ -206,10 +206,10 @@ def modificate_word(message: str, user_email: str) -> str:
                 b: all_whole_vocab_words[b].word for b in range(len(all_whole_vocab_words))}
             word = numbered_list_of_words[message-1]
             dynamic_table_string = DynamicVocab.objects.get(
-                user_email=user_email, word_in_dynamic=word)
-            dynamic_table_string.status_of_word_in_dynamic = 'modif'
+                user_email=user_email, word_dynamic=word)
+            dynamic_table_string.status_of_word_dynamic = 'modif'
             dynamic_table_string.save()
-            definition_of_word = dynamic_table_string.definition_in_dynamic
+            definition_of_word = dynamic_table_string.definition_dynamic
             definition_of_word = ("Дефиниция у слова следующая:\n\n"
                                   f"{definition_of_word}. \n\nНапиши "
                                   "теперь верную дефиницию.")
@@ -227,22 +227,22 @@ def modificate_word(message: str, user_email: str) -> str:
             list_of_records = DynamicVocab.objects.filter(
                 user_email=user_email).all()
             pkeys = [
-                b.id_of_word_in_dynamic.id_of_word_in_whole for b in list_of_records]
+                b.id_dynamic.id for b in list_of_records]
             highest = len(pkeys)
             dict_ = {i: pkeys[i] for i in range(highest)}
             pkey_of_word = dict_[number_of_word-1]
 
             whole_vocab_string = Vocab.objects.get(
-                id_of_word_in_whole=pkey_of_word)
+                id=pkey_of_word)
             whole_vocab_string.word = word
             whole_vocab_string.save()
 
             dynamic_table_string = DynamicVocab.objects.get(
-                id_of_word_in_dynamic=pkey_of_word)
-            dynamic_table_string.status_of_word_in_dynamic = 'modif'
+                id_dynamic=pkey_of_word)
+            dynamic_table_string.status_of_word_dynamic = 'modif'
             dynamic_table_string.save()
 
-            definition_of_word = dynamic_table_string.definition_in_dynamic
+            definition_of_word = dynamic_table_string.definition_dynamic
 
             returning_message = ("Слово изменено. Дефиниция у него такая: \n\n"
                                  f"{definition_of_word}\n\n"
@@ -262,11 +262,11 @@ def modificate_definition(definition: str, user_email: str) -> str:
     try:
         dynamic_table_string = DynamicVocab.objects.get(
             user_email=user_email,
-            status_of_word_in_dynamic='modif'
+            status_of_word_dynamic='modif'
         )
-        number_in_whole = dynamic_table_string.id_of_word_in_dynamic.id_of_word_in_whole
+        number_in_whole = dynamic_table_string.id_dynamic.id
         whole_table_string = Vocab.objects.get(
-            id_of_word_in_whole=number_in_whole,
+            id=number_in_whole,
             user_email=user_email
         )
         whole_table_string.definition = definition
