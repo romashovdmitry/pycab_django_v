@@ -27,53 +27,53 @@ The project utilizes the following technologies:
 
 # How To Run on local machine
 
-Run Ngrok server by
+Run the Ngrok server to create a secure tunnel to your local development environment. Execute the following command:
 
-<code>ngrok http 8000</code> or if you get error abount rights of user<code>.\ngrok http 8000</code>
+<code>ngrok http 8000</code> 
 
-Get domain of ngrok's URL. Example: 
+If you encounter any errors related to user rights, use the command
 
-<code>https://2fd1-83-139-27-28.eu.ngrok.io </code>
+<code>.\ngrok http 8000</code>
 
-Open .env file and set domain in variable NGROK in settings.py. Remember that you need to have telegram bot for using app and also set values in other .env variables before next steps. Set your's adress and password instead of EMAIL configuration variables. 
+Take domen of the Ngrok URL, which will be something like <code>https://2fd1-83-139-27-28.eu.ngrok.io </code>
+
+Create .env (look at .env_example), open the .env file and set the Ngrok URL as the value for the NGROK variable in the settings.py file. Replace the existing value with the Ngrok URL you obtained in the previous step. Additionally, make sure to set other environment variables in the .env file according to your requirements. For example:
 
 <code>EMAIL_HOST_USER = 'yoursmail@gmail.com'
 EMAIL_HOST_PASSWORD = 'yourspassword'</code>
 
-These two variables could be depend on used service.
+Note: The email host user and password variables may vary depending on the email service you are using.
 
-Run docker-compose command 
+Run the following command to start the Docker container:
 
 <code>docker compose up</code>
 
-Find Django-docker container id by command 
+Find the ID of the Django-docker container by executing the command: 
 
 <code>docker ps</code>
 
-Come in container
+Enter the container by running the following command
 
 <code>docker exec -t -i id_of_container bash</code>
 
-And set webhook firstly by command
+Set up the webhook by running the make_webhook_firstly.py script
 
 <code>python3 make_webhook_firstly.py</code>
 
-Open in your's browser <code>http://127.0.0.1:8000/</code> and enjoy. 
+Finally, open <code>http://127.0.0.1:8000/</code> in your browser to access and interact with the application.
 
-# Python code
+# Project Structure
 
-Mainly, project consists of 2 parts:
+The project consists of two main parts:
 
 1. Telegram bot.
-2. Django Interface. 
 
-URLs and views are in their respective folders, telegram.py include function requests_list, that processes incoming messages in Telegram bot. Mainly by using "flag" (level) code choose functions from module operations.py and use them to construct answers for user. 
-
-# Django Web Interface
-
-For web interface have used simple HTML and Bootstrap styles: https://getbootstrap.com
+The Telegram bot functionality is implemented in the telegram.py file. It includes the requests_list function, which processes incoming messages in the Telegram bot. By using a "flag" (level) code, the requests_list function selects functions from the operations.py module and utilizes them to construct responses for the user. For the design of the web interface, we have utilized simple HTML and Bootstrap styles. You can learn more about Bootstrap styles https://getbootstrap.comю 
 
 ## Next steps in project: 
 
-1. To add simple math models for less random output of words. Now output is absolutely random. That's not cool, because to remember some words are more easily than others. And if you have 1000 words, than difficult words just can not to be showed in Telegram bot. 
-2. Division any certain amount of words on pages (pagination). Like on one page could be maximum 100 words. Because if you have 1000 words, loading of page could be very slow. 
+1. Implement Simple Math Models for Improved Word Selection. Currently, the output of words in the project is entirely random. To enhance the user experience, consider adding simple math models that prioritize certain words over others. By introducing mathematical algorithms or techniques, you can make the word selection process more intelligent and ensure that difficult words are not neglected. This will help users remember a broader range of vocabulary.
+
+2. Enhance the project's functionality by incorporating word parsing capabilities from the Oxford Dictionary website or integrating with a suitable API.
+
+last and the most importatnt: Resolve bugs, of course (:
