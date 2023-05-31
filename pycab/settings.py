@@ -165,7 +165,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_TRUSTED_ORIGINS = [
-    f'{HOST}'
+    f'{HOST}',
+    'https://1507839-cy37741.tw1.ru'
 ]
 
 
