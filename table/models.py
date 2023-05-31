@@ -69,5 +69,5 @@ class DynamicVocab(Model):
         self.user_email = email
         self.word_dynamic = record.word
         self.definition_dynamic = record.definition
-        self.id_of_word_in_dynamic = record
+        self.id_dynamic = record.id
         self.save()
