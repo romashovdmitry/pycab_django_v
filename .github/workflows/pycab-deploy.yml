@@ -26,6 +26,7 @@ jobs:
           ref: 'master'
       - name: Create .env file
         run: |
+            echo "ACTU_LAST_ONE_SSH_PRIVATE_KEY=${{ secrets.LAST_ONE_SSH_PRIVATE_KEY }}" >> .env
             echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER}}" >> .env
             echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
             echo "HOST=${{ secrets.HOST }}" >> .env
