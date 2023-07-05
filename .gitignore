@@ -7,7 +7,6 @@ pycab_screencast.mp4
 delete.py
 # screencast of app
 pycab_screencast.mp4
-.env
 
 # file with sql transactions
 table/backendAndTelegram/sql_transactions.py
@@ -17,3 +16,6 @@ table/backendAndTelegram/sql_transactions.py
 
 # for tests on local
 typical_commands.txt
+
+# log files
+*logs/*

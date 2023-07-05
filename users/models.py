@@ -9,7 +9,7 @@ import uuid
 
 class MyUser(AbstractUser):
 
-    first_name = last_name = is_superuser = is_staff = username = date_joined = None
+    first_name = last_name = is_superuser = is_staff = username = None
 
     class Meta:
 
