@@ -8,3 +8,6 @@ requests==2.27.1
 celery==5.2.7    
 djangorestframework==3.14.
 python-dotenv==1.0.0
+channels==4.0.0
+channels[daphne]>=4.0.0,<5
+# channels_redis==4.1.0

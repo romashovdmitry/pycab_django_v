@@ -19,7 +19,6 @@ import os
 from django.contrib.messages import constants as messages
 
 from pathlib import Path
-import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -45,6 +44,7 @@ ALLOWED_HOSTS = ['1507839-cy37741.tw1.ru', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,6 +58,18 @@ INSTALLED_APPS = [
     'pycab'
 ]
 
+# next two settings are for django channels
+ASGI_APPLICATION = "pycab.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'pycab.urls'
 
@@ -152,8 +165,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.MyUser'
 
 # https://realpython.com/asynchronous-tasks-with-django-and-celery/
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 LOGIN_URL = 'login'
 

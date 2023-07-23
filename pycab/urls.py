@@ -6,6 +6,8 @@ from users.views import Registration, Login, InfoPage, logout, \
 from table.views.words import table, delete_word, modify_word
 from table.views.get_message import get_message
 
+from table.websocket_try.views import index, room
+
 urlpatterns = [
     # registrations pages
     path('', Registration.as_view(), name='reg'),
@@ -32,7 +34,11 @@ urlpatterns = [
     # for Telegram webhook url
     path('telegram', get_message),
 
+    # for websocket test
+    path('websocket/', index, name="index"),
+    path("<str:room_name>/", room, name="room"),
+
     # for incorrect URLs
-    re_path(r"\S+/$", Registration.as_view(), name="registerPage")
+#    re_path(r"\S+/$", Registration.as_view(), name="registerPage")
 
 ]
