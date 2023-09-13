@@ -7,11 +7,13 @@ on:
 
 jobs:
   deploy:
-    name: Copy repo files to remote
+    name: test new kitty
     runs-on: ubuntu-latest
     steps:
-      - name: Show MACHINE_ROOT_PASSWORD
-        run: echo ${{ secrets.MACHINE_ROOT_PASSWORD }}
+      - name: Create secret file
+        run: echo "${{ secrets.MACHINE_ROOT_PASSWORD }}" > secret.txt
+      - name: Show secret from file
+        run: cat secret.txt
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.0
         with:
