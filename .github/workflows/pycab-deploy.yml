@@ -10,7 +10,6 @@ jobs:
     name: Copy repo files to remote
     runs-on: ubuntu-latest
     steps:
-    steps:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -19,8 +18,8 @@ jobs:
           password: ${{ secrets.MACHINE_ROOT_PASSWORD }}.
           port: ${{ secrets.PORT }}
           script: |
-                  ls -al
-                  whoami
+                ls -al
+                whoami
 
 
 #jobs:
