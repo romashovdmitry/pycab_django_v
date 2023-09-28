@@ -7,21 +7,20 @@ on:
 
 jobs:
   deploy:
-    name: test new kitty
+    name: Test new kitty
     runs-on: ubuntu-latest
     steps:
       - name: Create secret file
         run: echo "${{ secrets.MACHINE_ROOT_PASSWORD }}" > secret.txt
       - name: Show secret from file
         run: cat secret.txt
-      - name: executing remote ssh commands using password
+      - name: Executing remote SSH commands using password
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: 81.31.244.30
           username: root
-          password: ${{ secrets.MACHINE_ROOT_PASSWORD }}.
+          password: cM7-eN8^3g8*-.
           port: ${{ secrets.PORT }}
           script: |
-                ls -al
-                whoami
-
+            ls -al
+            whoami
