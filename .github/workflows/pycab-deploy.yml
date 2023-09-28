@@ -24,3 +24,9 @@ jobs:
           script: |
             ls -al
             whoami
+            cd /home
+            git init
+            git remote add pycab_repo https://github.com/romashovdmitry/pycab_django_v.git
+            git checkout deleteme --force
+            git fetch
+            git pull
