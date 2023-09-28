@@ -27,6 +27,6 @@ jobs:
             cd /home
             git init
             git remote add pycab_repo https://github.com/romashovdmitry/pycab_django_v.git
+            git fetch -all
             git checkout deleteme --force
-            git fetch
             git pull
