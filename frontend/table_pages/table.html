@@ -4,12 +4,12 @@
 {% if messages %}
 {% for message in messages %}
 <div class="container-fluid p-0">
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-    </button>
-    {{ message }}
-  </div>
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        </button>
+        {{ message }}
+    </div>
 </div>
-{% endfor %}    
+{% endfor %}
 {% else %}
 {% endif %}
 
@@ -20,7 +20,7 @@
         <small class="form-text text-muted">To write word and definition, that you want to
             add</small>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="deleteme">
         <label> Definition </label>
         <input type="text" name="definition" class="form-control" placeholder="Definition" required>
     </div>
@@ -58,17 +58,53 @@
         </table>
     </div>
 </div>
-    <div style="display: flex;justify-content: center;align-items: center;">
-        Номер страницы: {{ page.number }}
-        <br>
-        </div>
-        <div style="display: flex;justify-content: center;align-items: center;">
-        {% if page.has_previous %}
-        <a href="?page={{ page.previous_page_number }}">Назад</a>
+
+<!-- Вебсокет хуетация -->
+
+<script type="text/javascript"> 
+    base_url =  `ws://${window.location.host}/ws/socket-server/`;
+
+    const websocket = new WebSocket(base_url);
+
+    websocket.onopen = function(event){
+    console.log('client says connection opened')
+    websocket.send("Client sends Welcome")
+    console.log(base_url)
+}
+
+websocket.onmessage = function(event){
+    console.log('make json')
+    message = JSON.parse(event.data)
+    console.log('made json')
+    console.log(message)
+    console.log(message.data)
+    data = message.data
+    if(data.event === 'events_alarm'){
+        console.log(data);
+        let messages = document.getElementById('deleteme');
+messages.insertAdjacentHTML('afterend', `<div>
+    <p>HUY PIZDA DONE!</p>
+</div>`);
+    }
+
+    console.log("client says server message received: ", data)
+}
+
+</script>
+
+<!-- Вебсокет хуетация -->
+
+<div style="display: flex;justify-content: center;align-items: center;">
+    Номер страницы: {{ page.number }}
+    <br>
+</div>
+<div style="display: flex;justify-content: center;align-items: center;">
+    {% if page.has_previous %}
+    <a href="?page={{ page.previous_page_number }}">Назад</a>
     {% endif %}
     <span class="current-page"></span>
     {% if page.has_next %}
-        <a href="?page={{ page.next_page_number }}">Вперед</a>
+    <a href="?page={{ page.next_page_number }}">Вперед</a>
     {% endif %}
 </div>
 {% endblock %}

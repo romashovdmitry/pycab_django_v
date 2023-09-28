@@ -7,6 +7,7 @@ import json
 @csrf_exempt
 def get_message(request):
     '''URL to get data(from request) from Telegram server'''
+    print('\n\nCOME HERE НАХУЙn\n\n')
     try:
         if request.method == 'POST':
             formatted_request = HttpResponse(request).content.decode('utf-8')

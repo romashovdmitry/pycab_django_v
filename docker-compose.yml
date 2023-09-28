@@ -2,23 +2,32 @@ version: "3.8"
 
 
 services:
-    django:
+    django_wsgi:
         build: .
-        container_name: django
+        container_name: django_wsgi
         command: > 
             sh -c "python manage.py makemigrations users &&
                    python manage.py makemigrations table &&
                    python manage.py migrate &&
                    python make_webhook_firstly.py &&
-                   python manage.py runserver 0.0.0.0:8000"
+                   python manage.py runserver 8001"
+#                   uwsgi --socket=:8000 --module=pycab.wsgi:application --py-autoreload=1 &&"
+        volumes:
+            - .:/usr/src/app
+        ports: 
+            - "8001:8000"
+        depends_on:
+            - pycab_db
+            - pycab_redis
+            - smtp-server
+    django_asgi:
+        build: .
+        container_name: django_asgi
+        command: daphne -b 0.0.0.0 -p 8000 pycab.asgi:application
         volumes:
             - .:/usr/src/app
         ports: 
             - "8000:8000"
-        depends_on:
-            - pycab_db
-            - redis
-            - smtp-server
     pycab_db:
         image: postgres
         container_name: pycab_db
@@ -30,9 +39,9 @@ services:
           - '5432'
         ports:
           - '5105:5432'
-    redis:  
+    pycab_redis:  
         image: redis
-        container_name: redis
+        container_name: pycab_redis
         ports:
         - "6379"
         restart: always
@@ -52,11 +61,12 @@ services:
         environment:
             - DEBUG=1
             - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-            - CELERY_BROKER=redis://redis:6379/0
-            - CELERY_BACKEND=redis://redis:6379/0
+            - CELERY_BROKER=redis://pycab_redis:6379/0
+            - CELERY_BACKEND=redis://pycab_redis:6379/0
         depends_on:
-            - django
-            - redis
+            - django_wsgi
+            - django_asgi
+            - pycab_redis
 #        volumes:
 #        - ./redis.conf:/usr/local/etc/redis/redis.conf
 
