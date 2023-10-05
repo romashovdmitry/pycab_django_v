@@ -7,26 +7,21 @@ on:
 
 jobs:
   deploy:
-    name: Test new kitty
     runs-on: ubuntu-latest
     steps:
-      - name: Create secret file
-        run: echo "${{ secrets.MACHINE_ROOT_PASSWORD }}" > secret.txt
-      - name: Show secret from file
-        run: cat secret.txt
-      - name: Executing remote SSH commands using password
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Chekout Repository
+        uses: actions/checkout@v3
         with:
-          host: 81.31.244.30
+          fetch-depth: 2
+      - name: Restart services
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: 46.254.21.179
           username: root
-          password: cM7-eN8^3g8*-.
-          port: ${{ secrets.PORT }}
+          key: ${{ POPSO_DELETE_FOR_TEST }}
+          # comment just for new push
           script: |
-            ls -al
-            whoami
-            cd /home
-            git init
-            git remote add pycab_repo https://github.com/romashovdmitry/pycab_django_v.git
-            git fetch -all
-            git checkout deleteme --force
-            git pull pycab_repo deleteme
+            ls -all
+
+
+    
