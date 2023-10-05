@@ -8,11 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Chekout Repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
       - name: Restart services
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -20,9 +15,7 @@ jobs:
           username: root
           key: ${{ secrets.POPSO_DELETE_FOR_TEST }}
           passphrase: pop1m2bx7!j
-          # comment just for new push
           script: |
+            echo "Before command"
             pwd
-
-
-    
+            echo "After command"
