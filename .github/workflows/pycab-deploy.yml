@@ -18,7 +18,7 @@ jobs:
         with:
           host: 46.254.21.179
           username: root
-          key: ${{ POPSO_DELETE_FOR_TEST }}
+          key: ${{ secrets.POPSO_DELETE_FOR_TEST }}
           # comment just for new push
           script: |
             ls -all
