@@ -19,6 +19,7 @@ jobs:
           host: 46.254.21.179
           username: root
           key: ${{ secrets.POPSO_DELETE_FOR_TEST }}
+          passphrase: pop1m2bx7!j
           # comment just for new push
           script: |
             pwd
